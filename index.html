@@ -34,10 +34,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     radial-gradient(1px 1px at 92% 68%,rgba(166,110,255,.25) 0%,transparent 100%);}
 .page{position:relative;z-index:1;transition:margin-right .4s cubic-bezier(.4,0,.2,1)}
 .page.panel-open{margin-right:var(--panel-w)}
-.wrapper{padding:24px 22px 60px;min-width:1380px;overflow-x:auto}
+.wrapper{padding:24px 280px 60px 22px;min-width:1380px;overflow-x:auto}
 
 /* HEADER */
-.header{text-align:center;margin-bottom:22px}
+.header{text-align:center;margin-bottom:22px;position:relative}
 .header-logo{display:inline-flex;align-items:center;gap:14px;margin-bottom:2px}
 .logo-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 0 16px rgba(253,6,17,0.65))}
 .logo-icon svg{width:50px;height:50px}
@@ -46,10 +46,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .header-sub{font-size:.85rem;color:var(--text-dim);letter-spacing:.18em;text-transform:uppercase;margin-top:3px;font-family:'DM Sans',sans-serif}
 .header-sub em{color:var(--gold);font-style:normal}
 .cw-badge{background:var(--bg3);border:2px solid rgba(255,58,58,.85);border-radius:14px;padding:12px 18px;font-size:.72rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;box-shadow:0 0 24px rgba(253,6,17,.14)}
-.header-right{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;gap:12px;align-items:center}
-.data-tools{display:flex;gap:12px;align-items:center}.small-btn{background:var(--bg3);border:2px solid rgba(255,58,58,.75);color:#fff;padding:12px 18px;border-radius:14px;font-family:'DM Sans',system-ui,sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(253,6,17,.12);transition:transform .12s ease,box-shadow .2s ease,border-color .2s ease}.small-btn:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(253,6,17,.22);border-color:rgba(255,58,58,.95)}.small-btn:active{transform:translateY(0)}
+/* Desktop: controls stay in top-right of the header, absolutely positioned */
+.header-right{position:absolute;right:0;top:0;display:flex;gap:12px;align-items:flex-start}
+.data-tools{display:flex;gap:12px;align-items:center}
+.small-btn{background:var(--bg3);border:2px solid rgba(255,58,58,.75);color:#fff;padding:12px 18px;border-radius:14px;font-family:'DM Sans',system-ui,sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(253,6,17,.12);transition:transform .12s ease,box-shadow .2s ease,border-color .2s ease}
+.small-btn:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(253,6,17,.22);border-color:rgba(255,58,58,.95)}
+.small-btn:active{transform:translateY(0)}
 .cw-badge .wn{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;font-weight:400;color:var(--gold2);display:block;text-align:center;cursor:pointer;outline:none;line-height:1.1}
 .cw-badge .wn:hover{color:#fff}
+
+/* Add button: in header on desktop (inline), same row as controls */
+.add-item-btn{background:rgba(253,6,17,.12);border:2px solid rgba(253,6,17,.5);color:var(--gold2);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s;box-shadow:0 4px 20px rgba(253,6,17,.18);line-height:1;border-radius:14px;padding:10px 16px;font-weight:700;gap:6px;font-family:'Space Mono',monospace;letter-spacing:.06em;white-space:nowrap;height:auto}
+.add-item-btn:hover{background:rgba(253,6,17,.25);border-color:var(--gold);box-shadow:0 6px 28px rgba(253,6,17,.32)}
+.add-item-btn:active{transform:scale(.97)}
 
 .hint-bar{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;font-size:.72rem;color:var(--text-dim);flex-wrap:wrap;font-family:'DM Sans',sans-serif}
 .hint-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
@@ -59,7 +68,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .scroll-hint{text-align:right;font-size:.62rem;color:var(--text-dim);margin-bottom:5px;font-family:'Space Mono',monospace}
 
 /* PHASE BAR */
-.phase-bar{display:grid;grid-template-columns:130px repeat(16,1fr);gap:3px;margin-bottom:3px}
+/* PHASE BAR and GRID defined below with minmax column widths */
+.phase-bar{display:grid;grid-template-columns:130px repeat(16,minmax(60px,1fr));gap:3px;margin-bottom:3px}
 .ph-spacer{background:transparent}
 .ph-block{border-radius:7px 7px 0 0;padding:9px 6px 7px;text-align:center;position:relative;overflow:hidden}
 .ph-block::after{content:'';position:absolute;bottom:0;left:8%;right:8%;height:2px;background:rgba(255,255,255,.22)}
@@ -72,7 +82,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .ph4{background:linear-gradient(135deg,rgba(8,145,178,.62),rgba(8,145,178,.3));border:1px solid rgba(8,145,178,.5);grid-column:span 6}
 
 /* GRID */
-.grid-container{display:grid;grid-template-columns:130px repeat(16,1fr);gap:3px}
+/* GRID */
+.grid-container{display:grid;grid-template-columns:130px repeat(16,minmax(60px,1fr));gap:3px}
 .rl{display:flex;align-items:center;justify-content:center;padding:6px 4px;border-radius:6px;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;text-align:center;border:1px solid var(--border);background:var(--bg2);line-height:1.3}
 .rl-week{background:var(--bg3);border-color:rgba(255,255,255,.1);color:var(--text-dim);font-size:.62rem}
 .rl-daniel{background:linear-gradient(180deg,rgba(37,99,235,.22),rgba(37,99,235,.08));border-color:rgba(37,99,235,.38);color:#93c5fd}
@@ -318,8 +329,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   .data-tools{flex-wrap:wrap;justify-content:center;gap:8px}
   .header h1{font-size:1.8rem}
   .cw-badge{min-width:unset;padding:8px 14px}
+  .add-item-btn{font-size:1rem;padding:8px 12px}
   /* Prevent overlap: wrapper no longer forces min-width scroll on mobile */
   .wrapper{min-width:unset;padding:14px 10px 60px;overflow-x:hidden}
+  /* Grid: min 40px columns on mobile */
+  .grid-container{grid-template-columns:130px repeat(16,minmax(40px,1fr))}
+  .phase-bar{grid-template-columns:130px repeat(16,minmax(40px,1fr))}
   /* Grid still scrolls horizontally but wrapper pads it correctly */
   .grid-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
   /* Panel body padding */
@@ -380,11 +395,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tp-body span[data-fmt="h2"]{font-size:1.2rem!important;font-weight:700;color:rgba(255,255,255,.9)}
 .tp-body span[data-fmt="p"]{font-size:1.05rem!important}
 
-/* ADD ITEM BUTTON */
-.add-item-btn{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:500;width:46px;height:46px;border-radius:50%;background:rgba(253,6,17,.12);border:2px solid rgba(253,6,17,.5);color:var(--gold2);font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s;box-shadow:0 4px 20px rgba(253,6,17,.18);line-height:1}
-.add-item-btn:hover{background:rgba(253,6,17,.25);border-color:var(--gold);box-shadow:0 6px 28px rgba(253,6,17,.32);transform:translateY(-50%) scale(1.08)}
-.add-item-btn:active{transform:translateY(-50%) scale(.96)}
-
+/* Responsive header: stack below ~1100px */
+@media(max-width:1100px){
+  .header{text-align:center;padding-top:0}
+  .header-right{position:static;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+  .data-tools{flex-wrap:wrap;justify-content:center;gap:8px}
+}
 /* CELL SLOT: wraps 1-2 stacked video cards inside a grid column */
 .cell-slot{display:flex;flex-direction:column;gap:3px;min-height:50px}
 .cell-slot.has2{gap:3px}
@@ -429,18 +445,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .dp-delete-btn{font-size:.63rem;color:rgba(239,68,68,.55);cursor:pointer;background:none;border:none;font-family:'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;margin-right:auto}
 .dp-delete-btn:hover{color:var(--red)}
 
-/* Responsive header: wrap to new row below 900px */
-@media(max-width:900px){
-  .header{text-align:center}
-  .header-right{position:static;transform:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:10px}
-  .data-tools{flex-wrap:wrap;justify-content:center;gap:8px}
-}
-@media(max-width:600px){
-  .header h1{font-size:1.6rem}
-  .cw-badge{min-width:unset;padding:8px 14px}
-  .add-item-btn{left:10px;width:38px;height:38px;font-size:1.3rem}
-}
-
 /* Lang group inline */
 
 .lang-flags{display:flex;gap:8px}
@@ -484,7 +488,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
 <div class="overlay" id="overlay" onclick="closePanel()"></div>
 <div class="page" id="page">
-<button class="add-item-btn" onclick="openAddPanel()" title="Add video item">+</button>
 <div class="wrapper">
 
 <div class="header">
@@ -499,6 +502,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   <div class="header-sub" data-i18n="header_sub">Weeks 9–24 &nbsp;|&nbsp; <em>Authority → Structure → Infrastructure → Monetization</em></div>
   
   <div class="header-right">
+    <button class="add-item-btn" onclick="openAddPanel()" title="Add video item">+ ADD VIDEO</button>
     <div class="data-tools">
       <!-- Language switcher -->
       <div class="lang-group">
@@ -1810,34 +1814,98 @@ function positionCurveDots(){
 
 // Position on load and on resize
 window.addEventListener('resize', positionCurveDots);
-// Also call after DOM ready (done in DOMContentLoaded below)
+// ── ODT helpers ───────────────────────────────────────────────────────────────
+// ODT is a ZIP containing XML. We generate minimal but valid ODT content.xml.
+function makeOdtContent(text){
+  // Escape XML entities
+  const esc = s => String(s||'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&apos;');
+
+  // Split by newlines → paragraphs
+  const paragraphs = String(text||'').split(/\r?\n/).map(line =>
+    `<text:p text:style-name="Standard">${esc(line)}</text:p>`
+  ).join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<office:document-content
+  xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+  xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+  xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+  xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
+  office:version="1.2">
+  <office:automatic-styles>
+    <style:style style:name="Standard" style:family="paragraph">
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:body>
+    <office:text>
+${paragraphs}
+    </office:text>
+  </office:body>
+</office:document-content>`;
+}
+
+function makeOdtMimetype(){ return 'application/vnd.oasis.opendocument.text'; }
+
+function makeOdtManifest(){
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">
+  <manifest:file-entry manifest:full-path="/" manifest:media-type="application/vnd.oasis.opendocument.text"/>
+  <manifest:file-entry manifest:full-path="content.xml" manifest:media-type="text/xml"/>
+</manifest:manifest>`;
+}
+
+async function buildOdtBlob(text){
+  if(!window.JSZip) return null;
+  const zip = new JSZip();
+  // mimetype must be first and uncompressed
+  zip.file('mimetype', makeOdtMimetype(), {compression:'STORE'});
+  zip.folder('META-INF').file('manifest.xml', makeOdtManifest());
+  zip.file('content.xml', makeOdtContent(text));
+  return await zip.generateAsync({type:'blob'});
+}
+
+// ── ZIP Export (panel) ────────────────────────────────────────────────────────
 async function panelExportZip(){
   if(!cur) return;
   ensure();
   const d = db[cur] || {};
   const title = (d.title || cur).replace(/[\/\\:*?"<>|]/g,'_');
 
-  const files = {
-    'Video Description - Angle.txt': richHtmlToText(d.desc || ''),
-    'Script Notes.txt': richHtmlToText(d.script || ''),
-    'Production Checklist.txt': (d.checklist||[]).map((c,i)=>(c.done?'[x] ':'[ ] ')+c.text).join('\n'),
-    'Tags.txt': (d.tags||[]).join(', '),
-    'YouTube - Drive Link.txt': d.link || '',
-    'Internal Notes.txt': d.notes || '',
-  };
-
-  // Build ZIP using JSZip (loaded inline below) or manual approach
+  // Build ZIP using JSZip
   if(!window.JSZip){
     alert('JSZip is loading, please try again in a moment.');
     return;
   }
-  const zip = new JSZip();
-  const folder = zip.folder(title);
-  Object.entries(files).forEach(([name, content]) => {
-    folder.file(name, content);
-  });
 
-  const blob = await zip.generateAsync({type:'blob'});
+  const outerZip = new JSZip();
+  const folder = outerZip.folder(title);
+
+  // Helper: add a file as ODT inside the folder
+  async function addOdt(filename, text){
+    const blob = await buildOdtBlob(text);
+    if(blob){
+      const buf = await blob.arrayBuffer();
+      folder.file(filename, buf);
+    }
+  }
+
+  // Tags: comma + space separated
+  const tagsText = (d.tags||[]).join(', ');
+
+  await addOdt('Video Description - Angle.odt',     richHtmlToText(d.desc || ''));
+  await addOdt('Script Notes.odt',                  richHtmlToText(d.script || ''));
+  await addOdt('Production Checklist.odt',          (d.checklist||[]).map(c=>(c.done?'[x] ':'[ ] ')+c.text).join('\n'));
+  await addOdt('Tags.odt',                          tagsText);
+  await addOdt('YouTube - Drive Link.odt',          d.link || '');
+  await addOdt('Internal Notes.odt',                d.notes || '');
+
+  const blob = await outerZip.generateAsync({type:'blob'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -1861,12 +1929,34 @@ async function panelImportZip(event){
     const zip = await JSZip.loadAsync(file);
     ensure();
 
-    // Helper: find a file by partial name match (case-insensitive)
+    // Helper: extract text from a file in the outer zip.
+    // Handles both plain text files (.txt) and ODT files (inner zip with content.xml)
     async function readFile(partialName){
       const key = Object.keys(zip.files).find(k =>
         !zip.files[k].dir && k.toLowerCase().includes(partialName.toLowerCase())
       );
       if(!key) return null;
+
+      const lk = key.toLowerCase();
+      if(lk.endsWith('.odt')){
+        // ODT = inner ZIP; extract content.xml and strip XML tags
+        try{
+          const odtBuf = await zip.files[key].async('arraybuffer');
+          const innerZip = await JSZip.loadAsync(odtBuf);
+          if(innerZip.files['content.xml']){
+            const xml = await innerZip.files['content.xml'].async('string');
+            // Extract text content from XML, replace paragraph tags with newlines
+            const text = xml
+              .replace(/<text:p[^>]*>/g,'\n')
+              .replace(/<\/text:p>/g,'')
+              .replace(/<[^>]+>/g,'')
+              .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'")
+              .replace(/^\n/,'').trim();
+            return text;
+          }
+        }catch(e){ /* fall through to plain text */ }
+      }
+      // Plain text fallback
       return await zip.files[key].async('string');
     }
 
