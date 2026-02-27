@@ -37,7 +37,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .wrapper{padding:24px 22px 60px;min-width:1380px;overflow-x:auto}
 
 /* HEADER */
-.header{text-align:center;margin-bottom:22px;position:relative}
+.header{text-align:center;margin-bottom:22px}
 .header-logo{display:inline-flex;align-items:center;gap:14px;margin-bottom:2px}
 .logo-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 0 16px rgba(253,6,17,0.65))}
 .logo-icon svg{width:50px;height:50px}
@@ -45,7 +45,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .header h1 span{color:var(--gold2)}
 .header-sub{font-size:.85rem;color:var(--text-dim);letter-spacing:.18em;text-transform:uppercase;margin-top:3px;font-family:'DM Sans',sans-serif}
 .header-sub em{color:var(--gold);font-style:normal}
-.cw-badge{background:var(--bg3);border:2px solid rgba(255,58,58,.85);border-radius:14px;padding:12px 18px;font-size:.72rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;box-shadow:0 0 24px rgba(253,6,17,.14)}.header-right{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;gap:12px;align-items:center}.data-tools{display:flex;gap:12px;align-items:center}.small-btn{background:var(--bg3);border:2px solid rgba(255,58,58,.75);color:#fff;padding:12px 18px;border-radius:14px;font-family:'DM Sans',system-ui,sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(253,6,17,.12);transition:transform .12s ease,box-shadow .2s ease,border-color .2s ease}.small-btn:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(253,6,17,.22);border-color:rgba(255,58,58,.95)}.small-btn:active{transform:translateY(0)}
+.cw-badge{background:var(--bg3);border:2px solid rgba(255,58,58,.85);border-radius:14px;padding:12px 18px;font-size:.72rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;box-shadow:0 0 24px rgba(253,6,17,.14)}
+.header-right{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;gap:12px;align-items:center}
+.data-tools{display:flex;gap:12px;align-items:center}.small-btn{background:var(--bg3);border:2px solid rgba(255,58,58,.75);color:#fff;padding:12px 18px;border-radius:14px;font-family:'DM Sans',system-ui,sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(253,6,17,.12);transition:transform .12s ease,box-shadow .2s ease,border-color .2s ease}.small-btn:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(253,6,17,.22);border-color:rgba(255,58,58,.95)}.small-btn:active{transform:translateY(0)}
 .cw-badge .wn{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;font-weight:400;color:var(--gold2);display:block;text-align:center;cursor:pointer;outline:none;line-height:1.1}
 .cw-badge .wn:hover{color:#fff}
 
@@ -378,8 +380,69 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tp-body span[data-fmt="h2"]{font-size:1.2rem!important;font-weight:700;color:rgba(255,255,255,.9)}
 .tp-body span[data-fmt="p"]{font-size:1.05rem!important}
 
-/* Language switcher */
-.lang-group{display:flex;flex-direction:column;align-items:center;gap:6px}
+/* ADD ITEM BUTTON */
+.add-item-btn{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:500;width:46px;height:46px;border-radius:50%;background:rgba(253,6,17,.12);border:2px solid rgba(253,6,17,.5);color:var(--gold2);font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s;box-shadow:0 4px 20px rgba(253,6,17,.18);line-height:1}
+.add-item-btn:hover{background:rgba(253,6,17,.25);border-color:var(--gold);box-shadow:0 6px 28px rgba(253,6,17,.32);transform:translateY(-50%) scale(1.08)}
+.add-item-btn:active{transform:translateY(-50%) scale(.96)}
+
+/* CELL SLOT: wraps 1-2 stacked video cards inside a grid column */
+.cell-slot{display:flex;flex-direction:column;gap:3px;min-height:50px}
+.cell-slot.has2{gap:3px}
+
+/* VIDEO CARD within slot */
+.video-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:6px 7px;font-size:.7rem;line-height:1.35;color:var(--text);min-height:50px;transition:border-color .2s,background .2s,transform .15s;position:relative;white-space:pre-wrap;word-break:break-word;cursor:pointer;padding-top:22px;overflow:hidden;display:flex;flex-direction:column}
+.video-card.daniel{border-left:2px solid rgba(74,173,255,.42)}
+.video-card.fany{border-left:2px solid rgba(253,6,17,.42)}
+.video-card.cur-col{background:rgba(253,6,17,.04)}
+.video-card:hover{border-color:rgba(253,6,17,.5);background:rgba(253,6,17,.07);transform:translateY(-1px);box-shadow:0 4px 18px rgba(0,0,0,.45)}
+.video-card:active{transform:translateY(0)}
+.video-card.active-panel{border-color:var(--gold)!important;background:rgba(253,6,17,.1)!important;box-shadow:0 0 0 2px rgba(253,6,17,.22)!important}
+.video-card-title{flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+/* Mobile: truncate with max-height */
+@media(max-width:900px){
+  .video-card{max-height:300px}
+  .cell-slot{max-height:300px;overflow:hidden}
+  .cell-slot.has2{max-height:none}
+  .video-card.in-stack{max-height:145px}
+  .video-card-title{-webkit-line-clamp:4;font-size:.65rem}
+}
+
+/* Panel: person selector + week selector in header */
+.dp-meta-top{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.dp-person-toggle{display:flex;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.dp-person-btn{padding:3px 12px;font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;border:none;color:var(--text-dim);transition:all .18s}
+.dp-person-btn.active-daniel{background:rgba(74,173,255,.25);color:var(--cyan2)}
+.dp-person-btn.active-fany{background:rgba(253,6,17,.25);color:var(--gold2)}
+.dp-person-btn:hover:not([class*="active"]){color:var(--text)}
+.dp-week-edit{font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:20px;border:1px solid;cursor:pointer;background:transparent;color:var(--cyan2);border-color:rgba(74,173,255,.5);transition:all .18s;position:relative}
+.dp-week-edit:hover{border-color:var(--cyan2);background:rgba(74,173,255,.1)}
+.dp-week-edit.fany-week{color:var(--gold2);border-color:rgba(253,6,17,.5)}
+.dp-week-edit.fany-week:hover{border-color:var(--gold2);background:rgba(253,6,17,.1)}
+
+/* Week picker popover */
+.week-picker{position:absolute;top:calc(100% + 6px);left:0;z-index:100;background:var(--bg3);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;box-shadow:0 8px 30px rgba(0,0,0,.5);min-width:170px}
+.week-picker-btn{padding:4px;border-radius:6px;font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.06em;cursor:pointer;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--text-dim);transition:all .15s}
+.week-picker-btn:hover{background:rgba(253,6,17,.15);border-color:rgba(253,6,17,.4);color:var(--gold2)}
+.week-picker-btn.sel{background:rgba(253,6,17,.22);border-color:rgba(253,6,17,.6);color:var(--gold2)}
+
+/* Delete button in panel footer */
+.dp-delete-btn{font-size:.63rem;color:rgba(239,68,68,.55);cursor:pointer;background:none;border:none;font-family:'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;margin-right:auto}
+.dp-delete-btn:hover{color:var(--red)}
+
+/* Responsive header: wrap to new row below 900px */
+@media(max-width:900px){
+  .header{text-align:center}
+  .header-right{position:static;transform:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:10px}
+  .data-tools{flex-wrap:wrap;justify-content:center;gap:8px}
+}
+@media(max-width:600px){
+  .header h1{font-size:1.6rem}
+  .cw-badge{min-width:unset;padding:8px 14px}
+  .add-item-btn{left:10px;width:38px;height:38px;font-size:1.3rem}
+}
+
+/* Lang group inline */
+
 .lang-flags{display:flex;gap:8px}
 .lang-flag{width:42px;height:30px;border-radius:8px;cursor:pointer;border:2px solid rgba(255,255,255,.15);background:transparent;padding:0;overflow:hidden;transition:all .18s;display:flex;align-items:center;justify-content:center;font-size:1.4rem;line-height:1}
 .lang-flag:hover{border-color:rgba(255,255,255,.45);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.4)}
@@ -421,6 +484,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
 <div class="overlay" id="overlay" onclick="closePanel()"></div>
 <div class="page" id="page">
+<button class="add-item-btn" onclick="openAddPanel()" title="Add video item">+</button>
 <div class="wrapper">
 
 <div class="header">
@@ -484,22 +548,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   <div class="wh">W21</div><div class="wh">W22</div><div class="wh">W23</div><div class="wh">W24</div>
 
   <div class="rl rl-daniel" style="font-size:.58rem">DANIEL<br><span style="font-size:.52rem;opacity:.6">(EN)</span></div>
-  <div class="cell daniel cur-col video-cell" data-vid="d-w9"  data-person="daniel" data-week="W9"  onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Buffer Build &#8212; No Post<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w10" data-person="daniel" data-week="W10" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>W10 Scheduled Video<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w11" data-person="daniel" data-week="W11" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>How Do You Know If What You Built Is Actually a System?<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w12" data-person="daniel" data-week="W12" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Lab A Part 1: Structured vs Improvised Prompting<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w13" data-person="daniel" data-week="W13" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Why Midjourney Keeps Ignoring Your Prompts<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w14" data-person="daniel" data-week="W14" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Why Better Prompts Don&#39;t Improve AI Images<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w15" data-person="daniel" data-week="W15" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Prompting Is Not a Workflow<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w16" data-person="daniel" data-week="W16" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Designing Modular AI Systems<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w17" data-person="daniel" data-week="W17" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Claude&#39;s Proper Role in AI Architecture<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w18" data-person="daniel" data-week="W18" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>From Prompting to Infrastructure<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w19" data-person="daniel" data-week="W19" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Node-Based Systems vs Prompt-Based Control (Lab B)<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w20" data-person="daniel" data-week="W20" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>AI Systems for Creative Teams<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w21" data-person="daniel" data-week="W21" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Authority Publishing</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w22" data-person="daniel" data-week="W22" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Authority Publishing</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w23" data-person="daniel" data-week="W23" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Authority Publishing</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell daniel video-cell"         data-vid="d-w24" data-person="daniel" data-week="W24" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Authority Publishing</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
+  <div class="cell-slot daniel-slot cur-col" id="slot-daniel-W9"  data-person="daniel" data-week="W9"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W10" data-person="daniel" data-week="W10"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W11" data-person="daniel" data-week="W11"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W12" data-person="daniel" data-week="W12"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W13" data-person="daniel" data-week="W13"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W14" data-person="daniel" data-week="W14"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W15" data-person="daniel" data-week="W15"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W16" data-person="daniel" data-week="W16"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W17" data-person="daniel" data-week="W17"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W18" data-person="daniel" data-week="W18"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W19" data-person="daniel" data-week="W19"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W20" data-person="daniel" data-week="W20"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W21" data-person="daniel" data-week="W21"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W22" data-person="daniel" data-week="W22"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W23" data-person="daniel" data-week="W23"></div>
+  <div class="cell-slot daniel-slot" id="slot-daniel-W24" data-person="daniel" data-week="W24"></div>
 
   <div class="rl rl-daniel" style="font-size:.56rem;opacity:.7">Track</div>
   <div class="cell daniel cur-col s4 editable" contenteditable="true" style="background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.28);text-align:center;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#93c5fd">Lab A &#8212; Structured vs Improvised</div>
@@ -511,22 +575,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   <div class="sec-gap"></div>
 
   <div class="rl rl-fany" style="font-size:.58rem">FANY<br><span style="font-size:.52rem;opacity:.6">(ES)</span></div>
-  <div class="cell fany cur-col video-cell" data-vid="f-w9"  data-person="fany" data-week="W9"  onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Channel positioning &#183; Visual identity<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w10" data-person="fany" data-week="W10" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>&#191;La IA entiende lo que le pides?<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w11" data-person="fany" data-week="W11" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Estructura vs improvisaci&#243;n con IA<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w12" data-person="fany" data-week="W12" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>First Release &#9658; &#191;La IA realmente entiende?<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w13" data-person="fany" data-week="W13" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Estructura vs improvisaci&#243;n con IA<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w14" data-person="fany" data-week="W14" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>&#191;Por qu&#233; la IA repite resultados similares?<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w15" data-person="fany" data-week="W15" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>C&#243;mo pasar de experimentar a organizar<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w16" data-person="fany" data-week="W16" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Errores comunes usando IA en equipos creativos<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w17" data-person="fany" data-week="W17" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Organiza tu flujo creativo con IA sin estr&#233;s<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w18" data-person="fany" data-week="W18" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>&#191;Tu equipo realmente entiende c&#243;mo usa IA?<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w19" data-person="fany" data-week="W19" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>Herramientas que dan m&#225;s control que solo prompts<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w20" data-person="fany" data-week="W20" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div>C&#243;mo saber si necesitas ayuda estructurando tu IA<div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w21" data-person="fany" data-week="W21" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Weekly aligned content</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w22" data-person="fany" data-week="W22" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Weekly aligned content</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w23" data-person="fany" data-week="W23" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Weekly aligned content</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
-  <div class="cell fany video-cell"         data-vid="f-w24" data-person="fany" data-week="W24" onclick="openPanel(this)"><div class="v-status-dot s-idea"><span class="dot"></span><span class="lbl">Idea</span></div><span style="color:var(--text-dim)">Weekly aligned content</span><div class="v-click-hint">open &#8250;</div><div class="v-progress"><div class="v-progress-bar"></div></div></div>
+  <div class="cell-slot fany-slot cur-col" id="slot-fany-W9"  data-person="fany" data-week="W9"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W10" data-person="fany" data-week="W10"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W11" data-person="fany" data-week="W11"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W12" data-person="fany" data-week="W12"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W13" data-person="fany" data-week="W13"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W14" data-person="fany" data-week="W14"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W15" data-person="fany" data-week="W15"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W16" data-person="fany" data-week="W16"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W17" data-person="fany" data-week="W17"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W18" data-person="fany" data-week="W18"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W19" data-person="fany" data-week="W19"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W20" data-person="fany" data-week="W20"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W21" data-person="fany" data-week="W21"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W22" data-person="fany" data-week="W22"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W23" data-person="fany" data-week="W23"></div>
+  <div class="cell-slot fany-slot" id="slot-fany-W24" data-person="fany" data-week="W24"></div>
 
   <div class="sec-gap"></div>
 
@@ -622,7 +686,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 <div class="detail-panel" id="detailPanel">
   <div class="dp-header">
     <div class="dp-meta">
-      <span class="dp-week-tag daniel" id="dpWeekTag">DANIEL &#183; W9</span>
+      <div class="dp-meta-top">
+        <!-- Person toggle -->
+        <div class="dp-person-toggle">
+          <button class="dp-person-btn" id="dpPersonDaniel" onclick="setPanelPerson('daniel')">Daniel</button>
+          <button class="dp-person-btn" id="dpPersonFany"   onclick="setPanelPerson('fany')">Fany</button>
+        </div>
+        <!-- Week selector (clickable badge) -->
+        <div style="position:relative">
+          <button class="dp-week-edit" id="dpWeekBtn" onclick="toggleWeekPicker()">W9</button>
+          <div class="week-picker" id="weekPicker" style="display:none">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
       <div style="display:flex;gap:6px;align-items:center">
         <button class="dp-io-btn export" onclick="panelExportZip()" title="Export this item as a ZIP folder of text files">&#8595; Export</button>
         <button class="dp-io-btn import" onclick="document.getElementById('panelImportFile').click()" title="Import a ZIP folder to fill this item's fields">&#8593; Import</button>
@@ -704,6 +781,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     </div>
   </div>
   <div class="dp-footer">
+    <button class="dp-delete-btn" onclick="deleteCurrentItem()">&#x1F5D1; Delete</button>
     <div class="save-indicator"><div class="save-dot" id="saveDot"></div><span id="saveLabel" data-i18n="saved">Saved</span></div>
     <button class="dp-clear-btn" onclick="clearCurrent()" data-i18n="clear_data">Clear data</button>
   </div>
@@ -802,19 +880,308 @@ function hookAuthForm(){
   });
 }
 
-function applyDbToGrid(){
-  document.querySelectorAll('.video-cell').forEach(cell=>{
-    const d=db[cell.dataset.vid];
-    if(d){
-      if(d.status) updateCell(cell.dataset.vid, d.status);
-      if(d.title){
-        Array.from(cell.childNodes).forEach(n=>{
-          if(n.nodeType===3 && n.textContent.trim()) n.textContent='\n'+d.title+'\n';
-        });
-      }
+
+// ── Default seed videos (initial content) ──────────────────────────────────
+const SEED_VIDEOS = [
+  {vid:'d-w9',  person:'daniel',week:'W9',  title:'Buffer Build — No Post'},
+  {vid:'d-w10', person:'daniel',week:'W10', title:'W10 Scheduled Video'},
+  {vid:'d-w11', person:'daniel',week:'W11', title:'How Do You Know If What You Built Is Actually a System?'},
+  {vid:'d-w12', person:'daniel',week:'W12', title:'Lab A Part 1: Structured vs Improvised Prompting'},
+  {vid:'d-w13', person:'daniel',week:'W13', title:'Why Midjourney Keeps Ignoring Your Prompts'},
+  {vid:'d-w14', person:'daniel',week:'W14', title:"Why Better Prompts Don't Improve AI Images"},
+  {vid:'d-w15', person:'daniel',week:'W15', title:'Prompting Is Not a Workflow'},
+  {vid:'d-w16', person:'daniel',week:'W16', title:'Designing Modular AI Systems'},
+  {vid:'d-w17', person:'daniel',week:'W17', title:"Claude's Proper Role in AI Architecture"},
+  {vid:'d-w18', person:'daniel',week:'W18', title:'From Prompting to Infrastructure'},
+  {vid:'d-w19', person:'daniel',week:'W19', title:'Node-Based Systems vs Prompt-Based Control (Lab B)'},
+  {vid:'d-w20', person:'daniel',week:'W20', title:'AI Systems for Creative Teams'},
+  {vid:'d-w21', person:'daniel',week:'W21', title:'Authority Publishing'},
+  {vid:'d-w22', person:'daniel',week:'W22', title:'Authority Publishing'},
+  {vid:'d-w23', person:'daniel',week:'W23', title:'Authority Publishing'},
+  {vid:'d-w24', person:'daniel',week:'W24', title:'Authority Publishing'},
+  {vid:'f-w9',  person:'fany',  week:'W9',  title:'Channel positioning · Visual identity'},
+  {vid:'f-w10', person:'fany',  week:'W10', title:'¿La IA entiende lo que le pides?'},
+  {vid:'f-w11', person:'fany',  week:'W11', title:'Estructura vs improvisación con IA'},
+  {vid:'f-w12', person:'fany',  week:'W12', title:'First Release ► ¿La IA realmente entiende?'},
+  {vid:'f-w13', person:'fany',  week:'W13', title:'Estructura vs improvisación con IA'},
+  {vid:'f-w14', person:'fany',  week:'W14', title:'¿Por qué la IA repite resultados similares?'},
+  {vid:'f-w15', person:'fany',  week:'W15', title:'Cómo pasar de experimentar a organizar'},
+  {vid:'f-w16', person:'fany',  week:'W16', title:'Errores comunes usando IA en equipos creativos'},
+  {vid:'f-w17', person:'fany',  week:'W17', title:'Organiza tu flujo creativo con IA sin estrés'},
+  {vid:'f-w18', person:'fany',  week:'W18', title:'¿Tu equipo realmente entiende cómo usa IA?'},
+  {vid:'f-w19', person:'fany',  week:'W19', title:'Herramientas que dan más control que solo prompts'},
+  {vid:'f-w20', person:'fany',  week:'W20', title:'Cómo saber si necesitas ayuda estructurando tu IA'},
+  {vid:'f-w21', person:'fany',  week:'W21', title:'Weekly aligned content'},
+  {vid:'f-w22', person:'fany',  week:'W22', title:'Weekly aligned content'},
+  {vid:'f-w23', person:'fany',  week:'W23', title:'Weekly aligned content'},
+  {vid:'f-w24', person:'fany',  week:'W24', title:'Weekly aligned content'},
+];
+const WEEKS = ['W9','W10','W11','W12','W13','W14','W15','W16','W17','W18','W19','W20','W21','W22','W23','W24'];
+
+// ── DB ──────────────────────────────────────────────────────────────────────
+let db={};
+try{const r=localStorage.getItem(KEY);if(r)db=JSON.parse(r);}catch(e){}
+
+// Migrate old format: ensure seed vids are in db with person/week metadata
+function migrateDb(){
+  let changed = false;
+  SEED_VIDEOS.forEach(s=>{
+    if(!db[s.vid]){
+      db[s.vid] = {person:s.person, week:s.week, title:s.title, status:'idea'};
+      changed = true;
+    } else {
+      // Ensure person/week metadata on old entries
+      if(!db[s.vid].person){ db[s.vid].person = s.person; changed = true; }
+      if(!db[s.vid].week)  { db[s.vid].week   = s.week;   changed = true; }
+      if(db[s.vid].title === undefined){ db[s.vid].title = s.title; changed = true; }
+    }
+  });
+  if(changed) try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+}
+migrateDb();
+
+// ── Render all dynamic grid slots ──────────────────────────────────────────
+function renderAllSlots(){
+  // Clear all slots
+  document.querySelectorAll('.cell-slot').forEach(slot=>{
+    slot.innerHTML='';
+    slot.classList.remove('has2');
+  });
+  // Gather all vids sorted by created order (seed first, then added)
+  const allVids = Object.keys(db).filter(vid=>{
+    const d = db[vid];
+    return d && d.person && d.week;
+  });
+  allVids.forEach(vid=>{
+    const d = db[vid];
+    const slotId = 'slot-'+d.person+'-'+d.week;
+    const slot = document.getElementById(slotId);
+    if(!slot) return;
+    const count = slot.querySelectorAll('.video-card').length;
+    if(count >= 2) return; // max 2 per slot
+    const card = buildVideoCard(vid, d, count > 0);
+    slot.appendChild(card);
+    if(slot.querySelectorAll('.video-card').length === 2){
+      slot.classList.add('has2');
+      slot.querySelectorAll('.video-card').forEach(c=>c.classList.add('in-stack'));
     }
   });
 }
+
+function buildVideoCard(vid, d, isSecond){
+  const person = d.person || 'daniel';
+  const status = d.status || 'idea';
+  const title  = d.title  || '';
+  const card = document.createElement('div');
+  card.className = 'video-card '+person+(isSecond?' in-stack':'');
+  card.dataset.vid = vid;
+  card.onclick = ()=>openPanelById(vid);
+  // Status dot
+  const dot = document.createElement('div');
+  dot.className = 'v-status-dot s-'+status;
+  dot.innerHTML = '<span class="dot"></span><span class="lbl">'+status.charAt(0).toUpperCase()+status.slice(1)+'</span>';
+  card.appendChild(dot);
+  // Title
+  const t = document.createElement('div');
+  t.className = 'video-card-title';
+  t.textContent = title;
+  card.appendChild(t);
+  // Click hint
+  const hint = document.createElement('div');
+  hint.className = 'v-click-hint';
+  hint.textContent = 'open ›';
+  card.appendChild(hint);
+  // Progress bar
+  const prog = document.createElement('div');
+  prog.className = 'v-progress';
+  const bar = document.createElement('div');
+  bar.className = 'v-progress-bar';
+  bar.style.width  = (sProg[status]||0)+'%';
+  bar.style.background = sColors[status]||'';
+  prog.appendChild(bar);
+  card.appendChild(prog);
+  return card;
+}
+
+function updateCardInGrid(vid){
+  const d = db[vid];
+  if(!d) return;
+  // Re-render just that slot
+  const slotId = 'slot-'+d.person+'-'+d.week;
+  const slot = document.getElementById(slotId);
+  if(!slot) return;
+  // Replace card if exists, otherwise re-render full slot
+  const existing = slot.querySelector('[data-vid="'+vid+'"]');
+  if(existing){
+    const isSecond = existing.classList.contains('in-stack');
+    const newCard = buildVideoCard(vid, d, isSecond);
+    if(cur === vid) newCard.classList.add('active-panel');
+    slot.replaceChild(newCard, existing);
+  } else {
+    renderAllSlots();
+  }
+}
+
+function applyDbToGrid(){
+  renderAllSlots();
+}
+
+// ── Panel open/close ────────────────────────────────────────────────────────
+function openPanelById(vid){
+  if(dirty) doSave();
+  const isSamePanel = cur === vid;
+  document.querySelectorAll('.video-card.active-panel').forEach(c=>c.classList.remove('active-panel'));
+  const card = document.querySelector('[data-vid="'+vid+'"]');
+  if(card) card.classList.add('active-panel');
+  cur = vid;
+  const d = db[vid] || {};
+  const person = d.person || 'daniel';
+  const week   = d.week   || 'W9';
+
+  setPanelPersonUI(person);
+  setPanelWeekUI(week, person);
+
+  document.getElementById('dpTitle').value = d.title !== undefined ? d.title : '';
+
+  const descEl   = document.getElementById('dpDesc');
+  const scriptEl = document.getElementById('dpScript');
+  const descHasFocus   = descEl   && (document.activeElement === descEl   || descEl.contains(document.activeElement));
+  const scriptHasFocus = scriptEl && (document.activeElement === scriptEl || scriptEl.contains(document.activeElement));
+  if(!descHasFocus)   descEl.innerHTML   = d.desc   || '';
+  if(!scriptHasFocus) scriptEl.innerHTML = d.script || '';
+
+  document.getElementById('dpLink').value  = d.link  || '';
+  document.getElementById('dpNotes').value = d.notes || '';
+  applyStatus(d.status || 'idea');
+  renderChecklist(d.checklist || []);
+  renderTags(d.tags || []);
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('page').classList.add('panel-open');
+  document.getElementById('overlay').classList.add('show');
+  dirty = false; updateSaveUI(false);
+  document.getElementById('dpTitle').oninput = markDirty;
+  if(!isSamePanel){
+    if(descEl){
+      descEl.oninput   = markDirty;
+      descEl.onkeydown = e=>richEditorKeydown(e,'desc');
+      descEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'desc'));
+    }
+    if(scriptEl){
+      scriptEl.oninput   = markDirty;
+      scriptEl.onkeydown = e=>richEditorKeydown(e,'script');
+      scriptEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'script'));
+    }
+  }
+  if(!isSamePanel) fmtResetToolbar();
+  closeWeekPicker();
+}
+
+// Keep old openPanel(cell) call for backward compatibility
+function openPanel(cell){ openPanelById(cell.dataset.vid); }
+
+function openAddPanel(){
+  if(dirty) doSave();
+  // Create a new vid with unique id
+  const newVid = 'v-'+Date.now()+'-'+Math.floor(Math.random()*9999);
+  // Default to daniel, first week with < 2 slots, or W9
+  let defaultWeek = 'W9', defaultPerson = 'daniel';
+  for(const w of WEEKS){
+    const slotVids = Object.keys(db).filter(v=>db[v].person==='daniel'&&db[v].week===w);
+    if(slotVids.length < 2){ defaultWeek=w; break; }
+  }
+  db[newVid] = {person:defaultPerson, week:defaultWeek, title:'', status:'idea'};
+  persist();
+  renderAllSlots();
+  openPanelById(newVid);
+}
+
+function setPanelPersonUI(person){
+  const btnD = document.getElementById('dpPersonDaniel');
+  const btnF = document.getElementById('dpPersonFany');
+  btnD.className = 'dp-person-btn' + (person==='daniel' ? ' active-daniel' : '');
+  btnF.className = 'dp-person-btn' + (person==='fany'   ? ' active-fany'   : '');
+}
+
+function setPanelWeekUI(week, person){
+  const btn = document.getElementById('dpWeekBtn');
+  btn.textContent = week;
+  btn.className = 'dp-week-edit' + (person==='fany' ? ' fany-week' : '');
+}
+
+function setPanelPerson(person){
+  if(!cur) return;
+  const d = db[cur];
+  if(!d) return;
+  if(d.person === person) return;
+  // Check if target slot has room
+  const targetCount = Object.keys(db).filter(v=>v!==cur&&db[v].person===person&&db[v].week===d.week).length;
+  if(targetCount >= 2){ alert('That week already has 2 items for '+person+'.'); return; }
+  // Remove from old slot, add to new
+  const oldSlotId = 'slot-'+d.person+'-'+d.week;
+  d.person = person;
+  doSave();
+  renderAllSlots();
+  // Re-highlight
+  const card = document.querySelector('[data-vid="'+cur+'"]');
+  if(card) card.classList.add('active-panel');
+  setPanelPersonUI(person);
+  setPanelWeekUI(d.week, person);
+}
+
+function toggleWeekPicker(){
+  const picker = document.getElementById('weekPicker');
+  if(picker.style.display === 'none'){
+    // Build picker content
+    const d = db[cur] || {};
+    const person = d.person || 'daniel';
+    picker.innerHTML = '';
+    WEEKS.forEach(w=>{
+      const btn = document.createElement('button');
+      btn.className = 'week-picker-btn' + (w === d.week ? ' sel' : '');
+      btn.textContent = w;
+      btn.onclick = ()=>selectWeek(w);
+      picker.appendChild(btn);
+    });
+    picker.style.display = 'grid';
+    // Close on outside click
+    setTimeout(()=>document.addEventListener('click', closeWeekPickerOutside, {once:true}),10);
+  } else {
+    closeWeekPicker();
+  }
+}
+
+function closeWeekPicker(){ document.getElementById('weekPicker').style.display='none'; }
+function closeWeekPickerOutside(e){
+  const picker = document.getElementById('weekPicker');
+  const btn    = document.getElementById('dpWeekBtn');
+  if(!picker.contains(e.target) && e.target !== btn) closeWeekPicker();
+}
+
+function selectWeek(week){
+  if(!cur || !db[cur]) return;
+  const d = db[cur];
+  if(d.week === week){ closeWeekPicker(); return; }
+  // Check if target slot has room
+  const targetCount = Object.keys(db).filter(v=>v!==cur&&db[v].person===d.person&&db[v].week===week).length;
+  if(targetCount >= 2){ alert('That week already has 2 items for '+(d.person==='daniel'?'Daniel':'Fany')+'.'); closeWeekPicker(); return; }
+  d.week = week;
+  doSave();
+  renderAllSlots();
+  const card = document.querySelector('[data-vid="'+cur+'"]');
+  if(card) card.classList.add('active-panel');
+  setPanelWeekUI(week, d.person);
+  closeWeekPicker();
+}
+
+function deleteCurrentItem(){
+  if(!cur) return;
+  if(!confirm('Delete this video item? This cannot be undone.')) return;
+  delete db[cur];
+  persist();
+  renderAllSlots();
+  closePanel();
+}
+
 
 async function loadFromSupabase(){
   if(!remoteReady || !supa) return;
@@ -834,6 +1201,7 @@ async function loadFromSupabase(){
     if(data.state && typeof data.state === 'object'){
       applyingRemote = true;
       db = data.state;
+      migrateDb(); // ensure seed videos present
       persist(); // keep local cache
       applyingRemote = false;
       applyDbToGrid();
@@ -880,10 +1248,10 @@ function startRealtime(){
       if(next && typeof next === 'object'){
         applyingRemote = true;
         db = next;
+        migrateDb();
         persist();
         applyingRemote = false;
         applyDbToGrid();
-        // Do NOT call openPanel() here — it resets innerHTML and jumps cursor
       }
     });
     ch.subscribe();
@@ -892,73 +1260,19 @@ function startRealtime(){
   }
 }
 
-let db={};
-try{const r=localStorage.getItem(KEY);if(r)db=JSON.parse(r);}catch(e){}
 const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}; scheduleRemoteSave();};
 let cur=null,dirty=false,saveTimer=null;
 const sColors={idea:'#6e7285',scripting:'#f97316',recording:'#4AADFF',editing:'#A66EFF',done:'#3ADBA8',published:'#FD0611'};
 const sProg={idea:0,scripting:18,recording:42,editing:68,done:88,published:100};
-
-function openPanel(cell){
-  const isSamePanel = cur === cell.dataset.vid;
-  document.querySelectorAll('.video-cell.active-panel').forEach(c=>c.classList.remove('active-panel'));
-  cell.classList.add('active-panel');
-  cur=cell.dataset.vid;
-  const person=cell.dataset.person,week=cell.dataset.week;
-  const d=db[cur]||{};
-  const tag=document.getElementById('dpWeekTag');
-  tag.textContent=(person==='daniel'?'DANIEL':'FANY')+' \u00b7 '+week;
-  tag.className='dp-week-tag '+person;
-  const raw=cell.innerText.replace(/\s*(Idea|Scripting|Recording|Editing|Done|Published)\s*/i,'').replace('open \u203a','').trim();
-  document.getElementById('dpTitle').value=d.title!==undefined?d.title:raw;
-
-  const descEl=document.getElementById('dpDesc');
-  const descHasFocus = descEl && (document.activeElement === descEl || descEl.contains(document.activeElement));
-  if(descEl && !descHasFocus){
-    descEl.innerHTML=d.desc||'';
-  }
-
-  // Script Notes: also rich editor now
-  const scriptEl=document.getElementById('dpScript');
-  const scriptHasFocus = scriptEl && (document.activeElement === scriptEl || scriptEl.contains(document.activeElement));
-  if(scriptEl && !scriptHasFocus){
-    scriptEl.innerHTML=d.script||'';
-  }
-
-  document.getElementById('dpLink').value=d.link||'';
-  document.getElementById('dpNotes').value=d.notes||'';
-  applyStatus(d.status||'idea');
-  renderChecklist(d.checklist||[]);
-  renderTags(d.tags||[]);
-  document.getElementById('detailPanel').classList.add('open');
-  document.getElementById('page').classList.add('panel-open');
-  document.getElementById('overlay').classList.add('show');
-  dirty=false;updateSaveUI(false);
-  document.getElementById('dpTitle').oninput=markDirty;
-  // Wire rich editors (only on fresh open)
-  if(!isSamePanel){
-    if(descEl){
-      descEl.oninput=markDirty;
-      descEl.onkeydown=e=>richEditorKeydown(e,'desc');
-      descEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'desc'));
-    }
-    if(scriptEl){
-      scriptEl.oninput=markDirty;
-      scriptEl.onkeydown=e=>richEditorKeydown(e,'script');
-      scriptEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'script'));
-    }
-  }
-  // Reset toolbar only on fresh open
-  if(!isSamePanel) fmtResetToolbar();
-}
 
 function closePanel(){
   if(dirty)doSave();
   document.getElementById('detailPanel').classList.remove('open');
   document.getElementById('page').classList.remove('panel-open');
   document.getElementById('overlay').classList.remove('show');
-  document.querySelectorAll('.video-cell.active-panel').forEach(c=>c.classList.remove('active-panel'));
+  document.querySelectorAll('.video-card.active-panel').forEach(c=>c.classList.remove('active-panel'));
   cur=null;
+  closeWeekPicker();
 }
 
 function setStatus(s){
@@ -976,11 +1290,11 @@ function applyStatus(s){
 }
 
 function updateCell(vid,s){
-  const cell=document.querySelector('[data-vid="'+vid+'"]');
-  if(!cell)return;
-  const dot=cell.querySelector('.v-status-dot');
+  const card=document.querySelector('[data-vid="'+vid+'"]');
+  if(!card)return;
+  const dot=card.querySelector('.v-status-dot');
   if(dot){dot.className='v-status-dot s-'+s;dot.querySelector('.lbl').textContent=s.charAt(0).toUpperCase()+s.slice(1);}
-  const bar=cell.querySelector('.v-progress-bar');
+  const bar=card.querySelector('.v-progress-bar');
   if(bar){bar.style.width=sProg[s]+'%';bar.style.background=sColors[s];}
 }
 
@@ -1037,12 +1351,14 @@ function updateSaveUI(d){
 }
 function clearCurrent(){
   if(!cur||!confirm('Clear all data for this video?'))return;
-  delete db[cur];persist();
-  const cell=document.querySelector('[data-vid="'+cur+'"]');
-  if(cell)openPanel(cell);
+  const d = db[cur]||{};
+  // Keep person/week metadata, clear content only
+  db[cur]={person:d.person,week:d.week,title:'',status:'idea'};
+  persist();
+  renderAllSlots();
+  openPanelById(cur);
 }
-function ensure(){if(!db[cur])db[cur]={};}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function ensure(){if(!db[cur])db[cur]={person:'daniel',week:'W9'};}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function markDirty(){dirty=true;updateSaveUI(true);clearTimeout(saveTimer);saveTimer=setTimeout(doSave,700);}
 function doSave(){
   if(!cur)return;
@@ -1057,10 +1373,12 @@ function doSave(){
     notes:document.getElementById('dpNotes').value,
   });
   persist();dirty=false;updateSaveUI(false);
-  const t=db[cur].title;
-  if(t){
-    const cell=document.querySelector('[data-vid="'+cur+'"]');
-    if(cell){Array.from(cell.childNodes).forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.textContent='\n'+t+'\n';});}
+  // Update title in card
+  const card=document.querySelector('[data-vid="'+cur+'"]');
+  if(card){
+    const t=db[cur].title||'';
+    const titleEl=card.querySelector('.video-card-title');
+    if(titleEl) titleEl.textContent=t;
   }
 }
 // ── Current week: fetch live from worldtimeapi.org (GMT+1) ───────────────────
