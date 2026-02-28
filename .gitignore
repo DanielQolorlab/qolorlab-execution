@@ -1,1 +1,7 @@
 config.local.js
+
+# Local backups
+index-backup-before-*.html
+
+# Local reference images
+reference/
