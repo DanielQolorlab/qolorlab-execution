@@ -56,7 +56,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 /* Desktop: controls-row is an invisible layout shell; its children are absolute */
 .header-controls-row{pointer-events:none;height:0;overflow:visible}
 
-/* ── LEFT SIDE: Add Video + Export + Import ──────────────────────────────── */
+/* ── LEFT SIDE: Add Video + Export JSON + Import JSON ───────────────────── */
 .header-left{
   position:absolute;
   left:0;
@@ -68,7 +68,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   pointer-events:all;
 }
 
-/* ── RIGHT SIDE: Language flags + Current Week ───────────────────────────── */
+/* ── RIGHT SIDE: Language flags only ────────────────────────────────────── */
 .header-right{
   position:absolute;
   right:0;
@@ -76,44 +76,45 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   transform:translateY(-50%);
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
   pointer-events:all;
 }
 
-/* ── ADD VIDEO button – Bebas Neue, prominent ──────────────────────────── */
+/* ── ADD VIDEO button — styled exactly like the Enter/auth button ─────── */
 .add-item-btn{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.45rem;
-  font-weight:400;
-  letter-spacing:.1em;
-  color:var(--gold2);
-  background:rgba(253,6,17,.12);
-  border:2px solid rgba(253,6,17,.55);
+  font-family:'DM Sans','DM Sans',system-ui,sans-serif;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.2em;
+  color:#fff;
+  background:linear-gradient(180deg, rgba(253,6,17,.35), rgba(253,6,17,.12));
+  border:1px solid rgba(253,6,17,.55);
   border-radius:14px;
   padding:0 22px;
   height:44px;
   cursor:pointer;
   white-space:nowrap;
-  display:flex;align-items:center;gap:10px;
-  transition:all .22s;
-  box-shadow:0 4px 20px rgba(253,6,17,.18);
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s;
+  box-shadow:0 8px 28px rgba(253,6,17,.22);
   line-height:1;
+  text-transform:uppercase;
 }
-.add-item-btn:hover{background:rgba(253,6,17,.25);border-color:var(--gold);box-shadow:0 6px 28px rgba(253,6,17,.32)}
-.add-item-btn:active{transform:scale(.97)}
+.add-item-btn:hover{filter:brightness(1.1);box-shadow:0 10px 36px rgba(253,6,17,.34)}
+.add-item-btn:active{transform:scale(.98)}
 
-/* ── Unified control size for Export/Import/Flags/Week ─────────────────── */
+/* ── Export JSON / Import JSON — DM Sans, same height as Add Video ─────── */
 .dp-io-btn{
-  padding:0 16px;
+  padding:0 18px;
   height:44px;
   border-radius:12px;
-  font-family:'Space Mono',monospace;
-  font-size:.72rem;
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:.8rem;
   font-weight:700;
-  letter-spacing:.1em;
+  letter-spacing:.12em;
   text-transform:uppercase;
   cursor:pointer;
-  border:2px solid;
+  border:1px solid;
   transition:all .18s;
   display:inline-flex;align-items:center;justify-content:center;
   white-space:nowrap;
@@ -124,7 +125,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .dp-io-btn.import{background:rgba(74,173,255,.08);border-color:rgba(74,173,255,.55);color:var(--cyan2)}
 .dp-io-btn.import:hover{background:rgba(74,173,255,.18);border-color:rgba(74,173,255,.85);box-shadow:0 0 18px rgba(74,173,255,.2)}
 
-/* Lang flags */
+/* Lang flags — same height as buttons so they line up */
 .lang-flags{display:flex;gap:6px;align-items:center}
 .lang-flag{
   width:44px;height:44px;
@@ -481,14 +482,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   }
   .add-item-btn{width:100%;max-width:380px;justify-content:center;font-size:1.4rem;height:48px}
   .json-group{align-items:center}
-  /* Right side: flags + week in ONE horizontal row, labels at same top */
+  /* Right side: just the flag buttons in a row, centered */
   .header-right{
     flex-direction:row;
-    align-items:flex-start;
+    align-items:center;
     justify-content:center;
-    gap:16px;
+    gap:8px;
   }
-  .lang-group,.cw-wrap{align-items:center}
   .header h1{font-size:1.8rem}
   .cw-badge{min-width:unset}
   .lang-flag{width:40px;height:40px;font-size:1.3rem}
@@ -647,6 +647,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 <div class="overlay" id="overlay" onclick="closePanel()"></div>
 <div class="page" id="page">
 <div class="wrapper">
+<!-- Hidden span for JS week tracking — visible week marker is in the grid -->
+<span id="curWeek" style="display:none">W9</span>
 
 <div class="header">
   <!-- ── TITLE (centered) ── -->
@@ -667,32 +669,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     We use a single DOM and toggle between absolute and static via media queries.
   -->
   <div class="header-controls-row">
-    <!-- LEFT SIDE: + ADD VIDEO + JSON export/import -->
+    <!-- LEFT SIDE: + ADD VIDEO + Export/Import JSON -->
     <div class="header-left">
       <button class="add-item-btn" onclick="openAddPanel()" title="Add video item">+ ADD VIDEO</button>
-      <div class="json-group">
-        <div class="json-lbl">JSON</div>
-        <div class="json-btns">
-          <button id="btnExport" class="dp-io-btn export" type="button">&#8595; Export</button>
-          <button class="dp-io-btn import" type="button" onclick="document.getElementById('fileImport').click()">&#8593; Import</button>
-          <input type="file" id="fileImport" accept=".json" style="display:none" />
-        </div>
+      <div class="json-btns">
+        <button id="btnExport" class="dp-io-btn export" type="button">&#8595; Export JSON</button>
+        <button class="dp-io-btn import" type="button" onclick="document.getElementById('fileImport').click()">&#8593; Import JSON</button>
+        <input type="file" id="fileImport" accept=".json" style="display:none" />
       </div>
     </div>
-    <!-- RIGHT SIDE: Language flags + Current Week badge -->
+    <!-- RIGHT SIDE: Language flags only (no label, no current week) -->
     <div class="header-right">
-      <div class="lang-group">
-        <div class="lang-group-label" data-i18n="language">LANGUAGE</div>
-        <div class="lang-flags">
-          <button class="lang-flag active" id="langEN" onclick="setLang('en')" title="English" aria-label="English">🇺🇸</button>
-          <button class="lang-flag" id="langES" onclick="setLang('es')" title="Español" aria-label="Español">🇪🇸</button>
-        </div>
-      </div>
-      <div class="cw-wrap">
-        <span class="cw-lbl-outer" data-i18n="current_week">CURRENT WEEK</span>
-        <div class="cw-badge">
-          <span class="wn" id="curWeek">W9</span>
-        </div>
+      <div class="lang-flags">
+        <button class="lang-flag active" id="langEN" onclick="setLang('en')" title="English" aria-label="English">🇺🇸</button>
+        <button class="lang-flag" id="langES" onclick="setLang('es')" title="Español" aria-label="Español">🇪🇸</button>
       </div>
     </div>
   </div>
