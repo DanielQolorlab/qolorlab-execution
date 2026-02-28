@@ -36,8 +36,15 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .page.panel-open{margin-right:var(--panel-w)}
 .wrapper{padding:24px 22px 60px;min-width:1380px;overflow-x:auto}
 
-/* HEADER */
-.header{text-align:center;margin-bottom:14px}
+/* HEADER — title centered, controls pinned left/right absolutely */
+.header{
+  text-align:center;
+  margin-bottom:14px;
+  position:relative;
+  padding:8px 0 8px;
+  /* min-height so absolute controls don't overlap the grid below */
+  min-height:100px;
+}
 .header-logo{display:inline-flex;align-items:center;gap:14px;margin-bottom:2px}
 .logo-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 0 16px rgba(253,6,17,0.65))}
 .logo-icon svg{width:50px;height:50px}
@@ -46,20 +53,32 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .header-sub{font-size:.85rem;color:var(--text-dim);letter-spacing:.18em;text-transform:uppercase;margin-top:3px;font-family:'DM Sans',sans-serif}
 .header-sub em{color:var(--gold);font-style:normal}
 
-/* ── TOOLBAR ROW (below title on desktop) ───────────────────────────────── */
-/* Shared height & vertical alignment for all toolbar controls */
---tb-h: 44px;
+/* Desktop: controls-row is an invisible layout shell; its children are absolute */
+.header-controls-row{pointer-events:none;height:0;overflow:visible}
 
-.header-toolbar{
+/* ── LEFT SIDE: Add Video + Export + Import ──────────────────────────────── */
+.header-left{
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-top:14px;
-  flex-wrap:nowrap;
+  gap:8px;
+  pointer-events:all;
 }
-.header-toolbar-left{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.header-toolbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+
+/* ── RIGHT SIDE: Language flags + Current Week ───────────────────────────── */
+.header-right{
+  position:absolute;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  pointer-events:all;
+}
 
 /* ── ADD VIDEO button – Bebas Neue, prominent ──────────────────────────── */
 .add-item-btn{
@@ -84,7 +103,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .add-item-btn:active{transform:scale(.97)}
 
 /* ── Unified control size for Export/Import/Flags/Week ─────────────────── */
-/* All these controls share: height 44px, same font, same padding rhythm   */
 .dp-io-btn{
   padding:0 16px;
   height:44px;
@@ -106,7 +124,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .dp-io-btn.import{background:rgba(74,173,255,.08);border-color:rgba(74,173,255,.55);color:var(--cyan2)}
 .dp-io-btn.import:hover{background:rgba(74,173,255,.18);border-color:rgba(74,173,255,.85);box-shadow:0 0 18px rgba(74,173,255,.2)}
 
-/* Lang flags – same height as other controls */
+/* Lang flags */
 .lang-flags{display:flex;gap:6px;align-items:center}
 .lang-flag{
   width:44px;height:44px;
@@ -123,26 +141,25 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .lang-flag:hover{border-color:rgba(255,255,255,.5);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .lang-flag.active{border-color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
 
-/* Current week badge – same height, Space Mono for the week value */
+/* Language group: label above flags, vertically aligned with week */
+.lang-group{display:flex;flex-direction:column;align-items:center;gap:4px}
+.lang-group-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim)}
+
+/* Current week badge — "CURRENT WEEK" label sits ABOVE the box */
+.cw-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cw-lbl-outer{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim)}
 .cw-badge{
   background:var(--bg3);
   border:2px solid rgba(255,58,58,.85);
   border-radius:12px;
   height:44px;
   padding:0 18px;
-  font-size:.62rem;
-  letter-spacing:.18em;
-  color:var(--text-dim);
-  text-transform:uppercase;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:0;
   box-shadow:0 0 24px rgba(253,6,17,.14);
-  min-width:100px;
+  min-width:80px;
 }
-.cw-badge .cw-lbl{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase;line-height:1;margin-bottom:1px}
 .cw-badge .wn{
   font-family:'Space Mono',monospace;
   font-size:.72rem;
@@ -153,17 +170,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   text-align:center;
   cursor:pointer;
   outline:none;
-  line-height:1.1;
+  line-height:1;
   text-transform:uppercase;
 }
 .cw-badge .wn:hover{color:#fff}
 
-/* Tool group labels (small caps above controls) */
+/* JSON label above export/import */
+.json-group{display:flex;flex-direction:column;align-items:center;gap:4px}
+.json-lbl{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim)}
+.json-btns{display:flex;gap:8px;align-items:center}
+
+/* Legacy aliases – keep for anything else using these */
 .tool-group{display:flex;flex-direction:column;align-items:center;gap:4px}
 .tool-group-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim)}
 .tool-group-btns{display:flex;gap:8px;align-items:center}
 
-/* Small-btn fallback (unused in main nav but keep for other uses) */
+/* Small-btn fallback */
 .small-btn{background:var(--bg3);border:2px solid rgba(255,58,58,.75);color:#fff;padding:0 18px;height:44px;border-radius:12px;font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 24px rgba(253,6,17,.12);transition:transform .12s ease,box-shadow .2s ease,border-color .2s ease;display:inline-flex;align-items:center}
 .small-btn:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(253,6,17,.22);border-color:rgba(255,58,58,.95)}
 .small-btn:active{transform:translateY(0)}
@@ -436,14 +458,41 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   :root{--panel-w:100vw}
   .page.panel-open{margin-right:0}
   .detail-panel{width:100vw;left:0;right:0;top:0;bottom:0}
-  .header{padding:0 12px}
-  .header-toolbar{flex-direction:column;align-items:stretch;gap:8px;margin-top:10px}
-  .header-toolbar-left,.header-toolbar-right{justify-content:center;flex-wrap:wrap}
-  .add-item-btn{width:100%;justify-content:center;font-size:1.4rem;height:48px;order:2}
+  .header{padding:0 12px;min-height:unset}
+  /* Un-pin the left/right sides — flow normally */
+  .header-left,.header-right{position:static;transform:none;pointer-events:all}
+  /* Controls column below title */
+  .header-controls-row{
+    pointer-events:all;
+    height:auto;
+    overflow:visible;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+  }
+  /* Left: ADD VIDEO full-width, then JSON below */
+  .header-left{
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    width:100%;
+  }
+  .add-item-btn{width:100%;max-width:380px;justify-content:center;font-size:1.4rem;height:48px}
+  .json-group{align-items:center}
+  /* Right side: flags + week in ONE horizontal row, labels at same top */
+  .header-right{
+    flex-direction:row;
+    align-items:flex-start;
+    justify-content:center;
+    gap:16px;
+  }
+  .lang-group,.cw-wrap{align-items:center}
   .header h1{font-size:1.8rem}
   .cw-badge{min-width:unset}
   .lang-flag{width:40px;height:40px;font-size:1.3rem}
-  .dp-io-btn{height:40px;padding:0 12px}
+  .dp-io-btn{height:40px;padding:0 12px;font-size:.65rem}
   .wrapper{min-width:unset;padding:14px 10px 60px;overflow-x:hidden}
   .grid-container{grid-template-columns:130px repeat(16,minmax(40px,1fr))}
   .phase-bar{grid-template-columns:130px repeat(16,minmax(40px,1fr))}
@@ -458,8 +507,24 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   .tp-card{width:100%;max-height:100%;border-radius:0;padding:20px 14px 40px}
   .tp-body{padding:20px 16px 60px}
 }
-
-/* Teleprompter overlay */
+/* ── Tablet: controls flow as a centered row below title ─────────────────── */
+@media(max-width:1200px) and (min-width:601px){
+  .header{padding:0;min-height:unset}
+  .header-left,.header-right{position:static;transform:none;pointer-events:all}
+  .header-controls-row{
+    pointer-events:all;
+    height:auto;
+    overflow:visible;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    justify-content:center;
+    gap:14px;
+    margin-top:12px;
+  }
+  .header-left{flex-direction:row;align-items:center;gap:8px}
+  .header-right{flex-direction:row;align-items:center;gap:10px}
+}
 .tp-overlay{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;overflow:hidden;
   background:
     radial-gradient(1200px 700px at 20% 20%, rgba(253,6,17,.18), transparent 55%),
@@ -500,31 +565,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tp-body span[data-fmt="h2"]{font-size:1.2rem!important;font-weight:700;color:rgba(255,255,255,.9)}
 .tp-body span[data-fmt="p"]{font-size:1.05rem!important}
 
-/* Responsive header: stack below ~1100px */
-@media(max-width:1100px){
-  .header{text-align:center}
-  /* Toolbar stacks: hint bar first, then controls row, then ADD VIDEO full-width */
-  .header-toolbar{
-    flex-direction:column;
-    align-items:stretch;
-    gap:10px;
-  }
-  .header-toolbar-left{justify-content:center}
-  .header-toolbar-right{justify-content:center}
-  /* ADD VIDEO goes below, centered, more prominent */
-  .add-item-btn{
-    order:2;
-    width:100%;
-    max-width:380px;
-    justify-content:center;
-    align-self:center;
-    font-size:1.6rem;
-    height:52px;
-  }
-  /* Controls row: export/import + week + flags side by side, centered */
-  .header-toolbar-right{order:1}
-  .header-toolbar-left{order:1}
-}
 /* CELL SLOT: wraps 1-2 stacked video cards inside a grid column */
 .cell-slot{display:flex;flex-direction:column;gap:3px;min-height:50px}
 .cell-slot.has2{gap:3px}
@@ -609,6 +649,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 <div class="wrapper">
 
 <div class="header">
+  <!-- ── TITLE (centered) ── -->
   <div class="header-logo">
     <div class="logo-icon">
       <svg viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -619,34 +660,39 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   </div>
   <div class="header-sub" data-i18n="header_sub">Weeks 9–24 &nbsp;|&nbsp; <em>Authority → Structure → Infrastructure → Monetization</em></div>
 
-  <!-- TOOLBAR ROW: left = ADD VIDEO + Export/Import, right = Language + Week -->
-  <div class="header-toolbar">
-    <div class="header-toolbar-left">
-      <!-- ADD VIDEO -->
+  <!--
+    header-controls-row is the OUTER container.
+    On desktop (>1200px): hidden as a row — left/right are absolutely positioned instead.
+    On tablet/mobile (<1200px): becomes the visible stacked container.
+    We use a single DOM and toggle between absolute and static via media queries.
+  -->
+  <div class="header-controls-row">
+    <!-- LEFT SIDE: + ADD VIDEO + JSON export/import -->
+    <div class="header-left">
       <button class="add-item-btn" onclick="openAddPanel()" title="Add video item">+ ADD VIDEO</button>
-      <!-- JSON Export / Import -->
-      <div class="tool-group">
-        <div class="tool-group-label">JSON</div>
-        <div class="tool-group-btns">
+      <div class="json-group">
+        <div class="json-lbl">JSON</div>
+        <div class="json-btns">
           <button id="btnExport" class="dp-io-btn export" type="button">&#8595; Export</button>
           <button class="dp-io-btn import" type="button" onclick="document.getElementById('fileImport').click()">&#8593; Import</button>
           <input type="file" id="fileImport" accept=".json" style="display:none" />
         </div>
       </div>
     </div>
-    <div class="header-toolbar-right">
-      <!-- Language switcher -->
-      <div class="tool-group">
-        <div class="tool-group-label" data-i18n="language">LANGUAGE</div>
+    <!-- RIGHT SIDE: Language flags + Current Week badge -->
+    <div class="header-right">
+      <div class="lang-group">
+        <div class="lang-group-label" data-i18n="language">LANGUAGE</div>
         <div class="lang-flags">
           <button class="lang-flag active" id="langEN" onclick="setLang('en')" title="English" aria-label="English">🇺🇸</button>
           <button class="lang-flag" id="langES" onclick="setLang('es')" title="Español" aria-label="Español">🇪🇸</button>
         </div>
       </div>
-      <!-- Current Week -->
-      <div class="cw-badge">
-        <span class="cw-lbl" data-i18n="current_week">CURRENT WEEK</span>
-        <span class="wn" id="curWeek">W9</span>
+      <div class="cw-wrap">
+        <span class="cw-lbl-outer" data-i18n="current_week">CURRENT WEEK</span>
+        <div class="cw-badge">
+          <span class="wn" id="curWeek">W9</span>
+        </div>
       </div>
     </div>
   </div>
