@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>QOLORLAB — Execution Roadmap</title>
+<script src="config.local.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -967,8 +969,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 const KEY='ql_v3';
 
 // --- Supabase (shared persistence + auth) ---
-const SUPABASE_URL = "https://xiwwdtpzfqfzrkyshhrk.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_gsKBNC0l7FMJ5DFUoNyghw_gJOx06hs";
+const DEFAULT_SUPABASE_URL = "https://xiwwdtpzfqfzrkyshhrk.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_gsKBNC0l7FMJ5DFUoNyghw_gJOx06hs";
+const SUPABASE_URL = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL) ? window.APP_CONFIG.SUPABASE_URL : DEFAULT_SUPABASE_URL;
+const SUPABASE_ANON_KEY = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_ANON_KEY) ? window.APP_CONFIG.SUPABASE_ANON_KEY : DEFAULT_SUPABASE_ANON_KEY;
+const BYPASS_AUTH = !!(window.APP_CONFIG && window.APP_CONFIG.BYPASS_AUTH);
 const ROADMAP_ROW_ID = "qolorlab-v1";
 
 let supa = null;
@@ -983,10 +988,19 @@ function initSupabase(){
 }
 
 function showAuthGate(show){
-  const g=document.getElementById('authGate');
+  const g=document.getElementById("authGate");
   if(!g) return;
-  g.classList.toggle('show', !!show);
-  g.setAttribute('aria-hidden', show? 'false':'true');
+
+  if(!show){
+    const active=document.activeElement;
+    if(active && g.contains(active)) active.blur();
+    g.setAttribute("inert","");
+  } else {
+    g.removeAttribute("inert");
+  }
+
+  g.classList.toggle("show", !!show);
+  g.setAttribute("aria-hidden", show ? "false" : "true");
 }
 
 function setAuthMsg(msg){
@@ -996,6 +1010,13 @@ function setAuthMsg(msg){
 
 async function requireSession(){
   supa = supa || initSupabase();
+  if (BYPASS_AUTH) {
+    showAuthGate(false);
+    remoteReady = true;
+    await loadFromSupabase();
+    startRealtime();
+    return;
+  }
   if(!supa){
     // If opened from file://, Supabase calls can fail. Use Live Server (http://localhost).
     showAuthGate(true);
@@ -1549,7 +1570,7 @@ async function applyCurrentWeek(){
   let weekNum = null;
   try {
     // Fetch current date/time in Europe/Paris (GMT+1/GMT+2)
-    const res = await fetch('https://worldtimeapi.org/api/timezone/Europe/Paris');
+    throw new Error('skip worldtimeapi'); // disabled: use local fallback
     if(res.ok){
       const data = await res.json();
       // data.week_number is the ISO week number
