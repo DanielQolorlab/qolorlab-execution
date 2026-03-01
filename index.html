@@ -500,9 +500,134 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .auth-msg{grid-column:1 / -1; min-height:20px; color:#ff9096; font-family:'DM Sans', system-ui; font-size:13px;}
 .auth-foot{margin-top:16px; color:rgba(255,255,255,.5); font-family:'DM Sans', system-ui; font-size:12px;}
 
-/* Teleprompter mode button */
-.tp-btn{background:transparent;border:2px solid rgba(253,6,17,.55);color:#fff;padding:10px 28px;border-radius:22px;font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.tp-btn:hover{background:rgba(253,6,17,.12);border-color:var(--gold);box-shadow:0 0 18px rgba(253,6,17,.22)}
+/* ── Full Screen button (inline in field header) ─────────────────────────── */
+.fs-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.15);
+  color:var(--text-dim);
+  padding:4px 10px;
+  border-radius:6px;
+  font-family:'Space Mono',monospace;
+  font-size:.52rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .18s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.fs-btn:hover{border-color:rgba(255,255,255,.45);color:#fff;background:rgba(255,255,255,.06)}
+
+/* ── Fullscreen overlay ──────────────────────────────────────────────────── */
+.fs-overlay{
+  position:fixed;inset:0;z-index:2000;
+  display:none;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:rgba(5,6,10,.94);
+  backdrop-filter:blur(14px);
+}
+.fs-overlay.open{display:flex}
+
+/* Label written ABOVE the card */
+.fs-field-label{
+  font-family:'Space Mono',monospace;
+  font-size:.6rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--text-dim);
+  margin-bottom:12px;text-align:center;
+}
+
+/* The card itself */
+.fs-card{
+  width:min(660px,88vw);
+  height:min(480px,68vh);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(13,15,23,.99),rgba(9,11,17,.99));
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 28px 80px rgba(0,0,0,.75);
+  display:flex;flex-direction:column;overflow:hidden;
+  position:relative;
+}
+/* thin left red accent */
+.fs-card::before{
+  content:'';position:absolute;left:0;top:44px;bottom:44px;width:2px;
+  background:linear-gradient(180deg,transparent,rgba(253,6,17,.55),transparent);
+  border-radius:0 2px 2px 0;pointer-events:none;
+}
+/* card header row */
+.fs-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  flex-shrink:0;
+}
+.fs-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.95rem;letter-spacing:.18em;
+  color:var(--text-dim);text-transform:uppercase;
+}
+.fs-close{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;width:28px;height:28px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;color:var(--text-dim);transition:all .18s;
+}
+.fs-close:hover{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.5);color:#fca5a5}
+
+/* Editable scrollable body */
+.fs-body{
+  flex:1;overflow-y:auto;
+  padding:20px 24px 16px;
+  outline:none;
+  font-family:'DM Sans',sans-serif;font-size:1rem;
+  color:rgba(255,255,255,.85);line-height:1.8;
+  scrollbar-width:thin;scrollbar-color:rgba(253,6,17,.3) transparent;
+}
+.fs-body::-webkit-scrollbar{width:4px}
+.fs-body::-webkit-scrollbar-thumb{background:rgba(253,6,17,.3);border-radius:2px}
+/* mirror rich-editor formatting in the fullscreen body */
+.fs-body h1{font-size:1.35rem;font-weight:700;color:#fff;margin:14px 0 5px;line-height:1.2}
+.fs-body h2{font-size:1.1rem;font-weight:700;color:rgba(255,255,255,.9);margin:11px 0 5px}
+.fs-body p,.fs-body div{font-size:1rem;color:rgba(255,255,255,.8);line-height:1.8;margin:2px 0}
+.fs-body mark{background:rgba(253,6,17,.35);color:#fff;border-radius:2px;padding:0 3px}
+.fs-body b,.fs-body strong{font-weight:700}
+.fs-body i,.fs-body em{font-style:italic}
+.fs-body span[data-fmt="h1"]{font-size:1.35rem!important;font-weight:700;color:#fff}
+.fs-body span[data-fmt="h2"]{font-size:1.1rem!important;font-weight:700;color:rgba(255,255,255,.9)}
+.fs-body span[data-fmt="p"]{font-size:1rem!important}
+.fs-body:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.22);pointer-events:none}
+
+/* Toolbar BELOW the card */
+.fs-toolbar{
+  margin-top:10px;
+  display:flex;gap:5px;align-items:center;
+  background:rgba(11,13,21,.95);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;
+  padding:7px 12px;
+}
+.fs-toolbar .fmt-btn{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:5px;width:28px;height:28px;
+  color:var(--text-dim);
+  font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .14s;padding:0;min-width:unset;
+}
+.fs-toolbar .fmt-btn:hover,.fs-toolbar .fmt-btn.sz-active,.fs-toolbar .fmt-btn.tog-active{
+  background:rgba(253,6,17,.18);border-color:rgba(253,6,17,.55);color:var(--gold2);
+}
+.fs-toolbar .fmt-sep{width:1px;height:20px;background:rgba(255,255,255,.1);margin:0 3px}
+.fs-toolbar .fmt-btn.fmt-hl{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(253,6,17,.22);border-color:rgba(253,6,17,.45);
+  padding:0;min-width:unset;
+}
+
+/* Legacy tp-* aliases so old CSS references don't break mobile overrides */
+.tp-overlay{display:none}
+.tp-card,.tp-body,.tp-header,.tp-title,.tp-close,.tp-btn{}
 
 /* Rich text formatting toolbar */
 .fmt-toolbar{display:flex;gap:4px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
@@ -630,45 +755,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   .header-left{flex-direction:row;align-items:center;gap:8px}
   .header-right{flex-direction:row;align-items:center;gap:10px}
 }
-.tp-overlay{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;overflow:hidden;
-  background:
-    radial-gradient(1200px 700px at 20% 20%, rgba(253,6,17,.18), transparent 55%),
-    radial-gradient(900px 600px at 80% 30%, rgba(74,173,255,.08), transparent 60%),
-    rgba(0,0,0,.88);
-  backdrop-filter:blur(10px);
-}
-.tp-overlay.open{display:flex}
-.tp-card{
-  width:min(700px,92vw);
-  max-height:min(1080px,88vh);
-  border-radius:24px;
-  background:linear-gradient(180deg,rgba(14,16,24,.97),rgba(10,12,18,.97));
-  border:1px solid rgba(253,6,17,.3);
-  box-shadow:0 28px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.04) inset;
-  display:flex;flex-direction:column;overflow:hidden;
-  position:relative;
-}
-/* Red accent bar on left edge like a scroll indicator */
-.tp-card::before{content:'';position:absolute;left:0;top:60px;bottom:60px;width:3px;background:linear-gradient(180deg,transparent,rgba(253,6,17,.7),transparent);border-radius:0 2px 2px 0;pointer-events:none}
-.tp-header{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
-.tp-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase}
-.tp-close{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text-dim);transition:all .2s}
-.tp-close:hover{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.5);color:#fca5a5}
-.tp-body{flex:1;overflow-y:auto;padding:28px 32px 40px;scrollbar-width:thin;scrollbar-color:rgba(253,6,17,.35) transparent}
-.tp-body::-webkit-scrollbar{width:4px}
-.tp-body::-webkit-scrollbar-thumb{background:rgba(253,6,17,.35);border-radius:2px}
-.tp-video-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.06em;color:#fff;margin-bottom:24px;line-height:1.1;text-shadow:0 0 30px rgba(253,6,17,.3)}
-/* Teleprompter text styles — larger for easy reading */
-.tp-body h1{font-size:1.5rem;font-weight:700;color:#fff;margin:20px 0 6px;line-height:1.2;font-family:'DM Sans',sans-serif}
-.tp-body h2{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,.9);margin:16px 0 6px;line-height:1.25;font-family:'DM Sans',sans-serif}
-.tp-body p,.tp-body div{font-size:1.05rem;color:rgba(255,255,255,.8);line-height:1.85;margin:3px 0;font-family:'DM Sans',sans-serif}
-.tp-body mark{background:rgba(253,6,17,.35);color:#fff;border-radius:2px;padding:0 3px}
-.tp-body b,.tp-body strong{font-weight:700}
-.tp-body i,.tp-body em{font-style:italic}
-/* Spans with font-size override need explicit scaling in tp-body */
-.tp-body span[data-fmt="h1"]{font-size:1.5rem!important;font-weight:700;color:#fff}
-.tp-body span[data-fmt="h2"]{font-size:1.2rem!important;font-weight:700;color:rgba(255,255,255,.9)}
-.tp-body span[data-fmt="p"]{font-size:1.05rem!important}
+
 
 /* CELL SLOT: wraps 1-2 stacked video cards inside a grid column */
 .cell-slot{display:flex;flex-direction:column;gap:3px;min-height:50px}
@@ -986,7 +1073,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     </div>
     <div class="dp-divider"></div>
     <div class="dp-field">
-      <span class="dp-label" data-i18n="video_description">Video Description / Angle</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+        <span class="dp-label" style="margin-bottom:0" data-i18n="video_description">Video Description / Angle</span>
+        <button class="fs-btn" onclick="openFullscreen('desc')">⤢ Full Screen</button>
+      </div>
       <!-- Formatting toolbar — visible only when editor is focused -->
       <div class="dp-fmt-wrap">
         <div class="fmt-toolbar" id="fmtToolbarDesc">
@@ -1002,7 +1092,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       </div>
     </div>
     <div class="dp-field">
-      <span class="dp-label" data-i18n="script_notes">Script Notes</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+        <span class="dp-label" style="margin-bottom:0" data-i18n="script_notes">Script Notes</span>
+        <button class="fs-btn" onclick="openFullscreen('script')">⤢ Full Screen</button>
+      </div>
       <!-- Formatting toolbar for script — visible only when focused -->
       <div class="dp-fmt-wrap">
         <div class="fmt-toolbar" id="fmtToolbarScript">
@@ -1015,10 +1108,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           <button class="fmt-btn fmt-hl" title="Highlight" onmousedown="fmtApplyHighlight(event,'script')" style="width:22px;height:22px;border-radius:50%;background:rgba(253,6,17,.25);border-color:rgba(253,6,17,.5);padding:0;min-width:22px;align-self:center"></button>
         </div>
         <div class="dp-rich-editor" id="dpScript" contenteditable="true" spellcheck="true" data-placeholder="Hook, key points, structure, CTA…"></div>
-      </div>
-      <!-- Teleprompter Mode button -->
-      <div style="text-align:center;margin-top:10px">
-        <button class="tp-btn" onclick="openTeleprompter()" data-i18n="teleprompter_mode">TELEPROMPTER MODE</button>
       </div>
     </div>
     <div class="dp-divider"></div>
@@ -1050,14 +1139,55 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   </div>
 </div>
 
-<!-- Teleprompter overlay -->
-<div class="tp-overlay" id="tpOverlay">
-  <div class="tp-card">
-    <div class="tp-header">
-      <span class="tp-title" id="tpTitle">TELEPROMPTER</span>
-      <button class="tp-close" onclick="closeTeleprompter()" title="Close (Esc)">&#10005;</button>
+<!-- ── Fullscreen overlay: Video Description ─────────────────────────────── -->
+<div class="fs-overlay" id="fsOverlayDesc">
+  <div class="fs-field-label">VIDEO DESCRIPTION</div>
+  <div class="fs-card">
+    <div class="fs-header">
+      <span class="fs-title" id="fsTitleDesc">Video Description / Angle</span>
+      <button class="fs-close" onclick="closeFullscreen('desc')" title="Close (Esc)">&#10005;</button>
     </div>
-    <div class="tp-body" id="tpBody"></div>
+    <div class="fs-body" id="fsBodyDesc"
+         contenteditable="true" spellcheck="true"
+         data-placeholder="Core angle, target audience, problem solved…"
+         onbeforeinput="richEditorBeforeInput(event,'desc')"
+         onkeydown="richEditorKeydown(event,'desc')"
+         oninput="fsSyncToPanel('desc')"></div>
+  </div>
+  <div class="fs-toolbar" id="fsToolbarDesc">
+    <button class="fmt-btn fmt-p" data-size="p"  title="Paragraph" onmousedown="fmtApplySize(event,'desc','p')">P</button>
+    <button class="fmt-btn fmt-h1" data-size="h1" title="Heading 1" onmousedown="fmtApplySize(event,'desc','h1')">H1</button>
+    <button class="fmt-btn fmt-h2" data-size="h2" title="Heading 2" onmousedown="fmtApplySize(event,'desc','h2')">H2</button>
+    <div class="fmt-sep"></div>
+    <button class="fmt-btn fmt-b" title="Bold"   onmousedown="fmtApplyToggle(event,'desc','bold')"><b>B</b></button>
+    <button class="fmt-btn fmt-i" title="Italic" onmousedown="fmtApplyToggle(event,'desc','italic')"><i>i</i></button>
+    <button class="fmt-btn fmt-hl" title="Highlight" onmousedown="fmtApplyHighlight(event,'desc')" style="width:22px;height:22px;border-radius:50%;background:rgba(253,6,17,.22);border-color:rgba(253,6,17,.45);padding:0;min-width:unset;align-self:center"></button>
+  </div>
+</div>
+
+<!-- ── Fullscreen overlay: Script Notes ──────────────────────────────────── -->
+<div class="fs-overlay" id="fsOverlayScript">
+  <div class="fs-field-label">SCRIPT NOTES</div>
+  <div class="fs-card">
+    <div class="fs-header">
+      <span class="fs-title" id="fsTitleScript">Script Notes</span>
+      <button class="fs-close" onclick="closeFullscreen('script')" title="Close (Esc)">&#10005;</button>
+    </div>
+    <div class="fs-body" id="fsBodyScript"
+         contenteditable="true" spellcheck="true"
+         data-placeholder="Hook, key points, structure, CTA…"
+         onbeforeinput="richEditorBeforeInput(event,'script')"
+         onkeydown="richEditorKeydown(event,'script')"
+         oninput="fsSyncToPanel('script')"></div>
+  </div>
+  <div class="fs-toolbar" id="fsToolbarScript">
+    <button class="fmt-btn fmt-p" data-size="p"  title="Paragraph" onmousedown="fmtApplySize(event,'script','p')">P</button>
+    <button class="fmt-btn fmt-h1" data-size="h1" title="Heading 1" onmousedown="fmtApplySize(event,'script','h1')">H1</button>
+    <button class="fmt-btn fmt-h2" data-size="h2" title="Heading 2" onmousedown="fmtApplySize(event,'script','h2')">H2</button>
+    <div class="fmt-sep"></div>
+    <button class="fmt-btn fmt-b" title="Bold"   onmousedown="fmtApplyToggle(event,'script','bold')"><b>B</b></button>
+    <button class="fmt-btn fmt-i" title="Italic" onmousedown="fmtApplyToggle(event,'script','italic')"><i>i</i></button>
+    <button class="fmt-btn fmt-hl" title="Highlight" onmousedown="fmtApplyHighlight(event,'script')" style="width:22px;height:22px;border-radius:50%;background:rgba(253,6,17,.22);border-color:rgba(253,6,17,.45);padding:0;min-width:unset;align-self:center"></button>
   </div>
 </div>
 
@@ -1353,12 +1483,12 @@ function openPanelById(vid){
     if(descEl){
       descEl.oninput   = markDirty;
       descEl.onkeydown = e=>richEditorKeydown(e,'desc');
-      descEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'desc'));
+      // NOTE: beforeinput listener is registered once at page init (see below)
     }
     if(scriptEl){
       scriptEl.oninput   = markDirty;
       scriptEl.onkeydown = e=>richEditorKeydown(e,'script');
-      scriptEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'script'));
+      // NOTE: beforeinput listener is registered once at page init (see below)
     }
   }
   if(!isSamePanel) fmtResetToolbar();
@@ -1724,24 +1854,45 @@ function _cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
 
 function _updateAllToolbars(editorId){
   const st = _fmtState[editorId];
+
+  // ── Panel toolbar (inside .dp-fmt-wrap) ───────────────────────────────────
   const edEl = document.getElementById('dp' + _cap(editorId));
-  if(!edEl) return;
-  const wrap = edEl.closest('.dp-fmt-wrap');
-  if(!wrap) return;
-  wrap.querySelectorAll('.fmt-btn[data-size]').forEach(b =>
-    b.classList.toggle('sz-active', b.dataset.size === st.size)
-  );
-  const bb = wrap.querySelector('.fmt-btn.fmt-b');
-  const bi = wrap.querySelector('.fmt-btn.fmt-i');
-  if(bb) bb.classList.toggle('tog-active', st.bold);
-  if(bi) bi.classList.toggle('tog-active', st.italic);
+  if(edEl){
+    const wrap = edEl.closest('.dp-fmt-wrap');
+    if(wrap){
+      wrap.querySelectorAll('.fmt-btn[data-size]').forEach(b =>
+        b.classList.toggle('sz-active', b.dataset.size === st.size)
+      );
+      const bb = wrap.querySelector('.fmt-btn.fmt-b');
+      const bi = wrap.querySelector('.fmt-btn.fmt-i');
+      if(bb) bb.classList.toggle('tog-active', st.bold);
+      if(bi) bi.classList.toggle('tog-active', st.italic);
+    }
+  }
+
+  // ── Fullscreen toolbar (outside the card, below) ──────────────────────────
+  const fsToolbarId = editorId === 'desc' ? 'fsToolbarDesc' : 'fsToolbarScript';
+  const fsTb = document.getElementById(fsToolbarId);
+  if(fsTb){
+    fsTb.querySelectorAll('.fmt-btn[data-size]').forEach(b =>
+      b.classList.toggle('sz-active', b.dataset.size === st.size)
+    );
+    const bb = fsTb.querySelector('.fmt-btn.fmt-b');
+    const bi = fsTb.querySelector('.fmt-btn.fmt-i');
+    if(bb) bb.classList.toggle('tog-active', st.bold);
+    if(bi) bi.classList.toggle('tog-active', st.italic);
+  }
 }
 
 // Build a styled span from current fmtState
 function _makeStyledSpan(editorId, text){
   const st = _fmtState[editorId];
   const span = document.createElement('span');
-  span.style.fontSize = SIZE_MAP[st.size];
+  // Only set explicit font-size for h1/h2; p inherits from parent so text looks natural
+  if(st.size !== 'p') {
+    span.style.fontSize = SIZE_MAP[st.size];
+    span.setAttribute('data-fmt', st.size);
+  }
   if(st.bold) span.style.fontWeight = '700';
   if(st.italic) span.style.fontStyle = 'italic';
   if(text !== undefined) span.appendChild(document.createTextNode(text));
@@ -1765,19 +1916,41 @@ function _wrapSelection(editorId){
   markDirty();
 }
 
-// onmousedown — editor never loses focus/selection
+// onmousedown — e.preventDefault() keeps focus+selection; never call .focus() after
 function fmtApplySize(e, editorId, size){
   e.preventDefault();
   _fmtState[editorId].size = size;
   _updateAllToolbars(editorId);
-  const edEl = document.getElementById('dp' + _cap(editorId));
-  if(!edEl) return;
-  edEl.focus();
   const sel = window.getSelection();
-  if(sel && sel.rangeCount > 0 && !sel.isCollapsed){
+  if(!sel || sel.rangeCount === 0) return;
+  if(!sel.isCollapsed){
+    // Selection: wrap it in the new size
     _wrapSelection(editorId);
+  } else {
+    // No selection: just a cursor — escape out of any ancestor size-span
+    // so next typed character starts fresh outside the old span.
+    _escapeSizedSpan(sel);
   }
-  // If no selection: state is stored; next typed chars will use it via beforeinput
+}
+
+// Move cursor out of any ancestor size-styled span to clean unstyled territory.
+// Called when switching size format with no selection (cursor only).
+function _escapeSizedSpan(sel){
+  if(!sel || sel.rangeCount === 0) return;
+  const range = sel.getRangeAt(0);
+  let node = range.startContainer;
+  if(node.nodeType === 3) node = node.parentElement;
+  while(node && node.contentEditable !== 'true'){
+    if(node.tagName === 'SPAN' && node.style && node.style.fontSize){
+      const nr = document.createRange();
+      nr.setStartAfter(node);
+      nr.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(nr);
+      return;
+    }
+    node = node.parentElement;
+  }
 }
 
 function fmtApplyToggle(e, editorId, cmd){
@@ -1786,25 +1959,18 @@ function fmtApplyToggle(e, editorId, cmd){
   if(cmd === 'bold') st.bold = !st.bold;
   else if(cmd === 'italic') st.italic = !st.italic;
   _updateAllToolbars(editorId);
-  const edEl = document.getElementById('dp' + _cap(editorId));
-  if(!edEl) return;
-  edEl.focus();
   const sel = window.getSelection();
-  if(sel && sel.rangeCount > 0 && !sel.isCollapsed){
-    document.execCommand(cmd, false, null);
-  }
+  if(sel && sel.rangeCount > 0 && !sel.isCollapsed) document.execCommand(cmd, false, null);
 }
 
 function fmtApplyHighlight(e, editorId){
   e.preventDefault();
-  const edEl = document.getElementById('dp' + _cap(editorId));
-  if(!edEl) return;
-  edEl.focus();
   const sel = window.getSelection();
   if(!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+  const edEl = document.getElementById('dp' + _cap(editorId));
   const range = sel.getRangeAt(0);
   const parentMark = sel.anchorNode.parentElement?.closest('mark');
-  const wrap = edEl.closest('.dp-fmt-wrap');
+  const wrap = edEl?.closest('.dp-fmt-wrap');
   const hlBtn = wrap?.querySelector('.fmt-btn.fmt-hl');
   if(parentMark){
     const frag = document.createDocumentFragment();
@@ -1828,10 +1994,49 @@ function fmtApplyHighlight(e, editorId){
 // This is the key to "type in the selected format" behavior.
 function richEditorBeforeInput(e, editorId){
   if(e.inputType !== 'insertText') return;
-  const st = _fmtState[editorId];
-  // Only intercept if non-default style is active
-  if(st.size === 'p' && !st.bold && !st.italic) return;
   if(!e.data) return;
+  const st = _fmtState[editorId];
+
+  if(st.size === 'p' && !st.bold && !st.italic){
+    // P (default) mode: insert a plain text node, but first escape out of
+    // any ancestor sized span so the character lands in unstyled territory.
+    e.preventDefault();
+    const sel = window.getSelection();
+    if(!sel || sel.rangeCount === 0) return;
+    let range = sel.getRangeAt(0);
+    if(!range.collapsed) range.deleteContents();
+
+    // Walk up from cursor — if inside a size-styled span, break out of it
+    let container = range.startContainer;
+    let node = container.nodeType === 3 ? container.parentElement : container;
+    while(node && node.contentEditable !== 'true'){
+      if(node.tagName === 'SPAN' && node.style && node.style.fontSize){
+        // Place cursor after this span, then re-get range
+        const nr = document.createRange();
+        nr.setStartAfter(node);
+        nr.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(nr);
+        range = sel.getRangeAt(0);
+        break;
+      }
+      node = node.parentElement;
+    }
+
+    // Insert a plain text node (no span wrapper) at current cursor position
+    const textNode = document.createTextNode(e.data);
+    range.insertNode(textNode);
+    const nr = document.createRange();
+    nr.setStartAfter(textNode);
+    nr.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(nr);
+    if(_fsOpen === editorId) fsSyncToPanel(editorId);
+    else markDirty();
+    return;
+  }
+
+  // H1 / H2 / bold / italic mode: wrap character in a styled span
   e.preventDefault();
   const sel = window.getSelection();
   if(!sel || sel.rangeCount === 0) return;
@@ -1839,16 +2044,14 @@ function richEditorBeforeInput(e, editorId){
   if(!range.collapsed) range.deleteContents();
   const span = _makeStyledSpan(editorId, e.data);
   range.insertNode(span);
-  // Move cursor to after the inserted span
   const nr = document.createRange();
   nr.setStartAfter(span);
   nr.collapse(true);
   sel.removeAllRanges();
   sel.addRange(nr);
-  markDirty();
+  if(_fsOpen === editorId) fsSyncToPanel(editorId);
+  else markDirty();
 }
-
-// Keydown: only used for Enter to maintain current size on new line
 function richEditorKeydown(e, editorId){
   // No special handling needed — beforeinput handles character styling
 }
@@ -1885,26 +2088,120 @@ function richHtmlToText(html){
   return walk(tmp).trim();
 }
 
-// ── Teleprompter ──────────────────────────────────────────────────────────────
-function openTeleprompter(){
+// ── Fullscreen Mode ────────────────────────────────────────────────────────────
+// Which field is currently open in fullscreen (null | 'desc' | 'script')
+let _fsOpen = null;
+
+// Config per field
+const _fsCfg = {
+  desc:   { overlay:'fsOverlayDesc',   body:'fsBodyDesc',   panel:'dpDesc',   title:'fsTitleDesc' },
+  script: { overlay:'fsOverlayScript', body:'fsBodyScript', panel:'dpScript', title:'fsTitleScript' },
+};
+
+function openFullscreen(field){
   if(!cur) return;
+  const cfg = _fsCfg[field];
+  if(!cfg) return;
   const d = db[cur] || {};
-  const scriptEl = document.getElementById('dpScript');
-  const overlay = document.getElementById('tpOverlay');
-  const body = document.getElementById('tpBody');
-  const titleEl = document.getElementById('tpTitle');
-  // Set title
-  if(titleEl) titleEl.textContent = (d.title || 'TELEPROMPTER').toUpperCase();
-  // Build content from script field HTML
-  const scriptHtml = scriptEl ? scriptEl.innerHTML : (d.script || '');
-  body.innerHTML = '<div class="tp-video-title">' + (d.title || '') + '</div>' + (scriptHtml || '<p style="color:rgba(255,255,255,.4);font-style:italic">No script notes yet.</p>');
-  body.scrollTop = 0;
-  overlay.classList.add('open');
+  // Sync panel → fullscreen body
+  const panelEl = document.getElementById(cfg.panel);
+  const bodyEl  = document.getElementById(cfg.body);
+  const titleEl = document.getElementById(cfg.title);
+  if(titleEl) titleEl.textContent = d.title || titleEl.textContent;
+  if(bodyEl && panelEl) { bodyEl.innerHTML = panelEl.innerHTML; bodyEl.scrollTop = 0; }
+  document.getElementById(cfg.overlay).classList.add('open');
+  _fsOpen = field;
+  // Sync toolbar active states to fullscreen (reflects current fmtState)
+  _updateAllToolbars(field);
+  setTimeout(()=>{ bodyEl && bodyEl.focus(); }, 80);
 }
 
-function closeTeleprompter(){
-  document.getElementById('tpOverlay').classList.remove('open');
+function closeFullscreen(field){
+  const cfg = _fsCfg[field];
+  if(!cfg) return;
+  // Sync fullscreen → panel one final time
+  const bodyEl  = document.getElementById(cfg.body);
+  const panelEl = document.getElementById(cfg.panel);
+  if(bodyEl && panelEl){
+    panelEl.innerHTML = bodyEl.innerHTML;
+    if(db[cur]) db[cur][field] = bodyEl.innerHTML;
+    markDirty();
+  }
+  document.getElementById(cfg.overlay).classList.remove('open');
+  _fsOpen = null;
 }
+
+// Called on every input in the fs-body — keeps panel in sync live
+function fsSyncToPanel(field){
+  const cfg = _fsCfg[field];
+  if(!cfg) return;
+  const bodyEl  = document.getElementById(cfg.body);
+  const panelEl = document.getElementById(cfg.panel);
+  if(bodyEl && panelEl) panelEl.innerHTML = bodyEl.innerHTML;
+  if(db[cur]) db[cur][field] = bodyEl ? bodyEl.innerHTML : '';
+  markDirty();
+}
+
+// Patch: fmt functions use  document.getElementById('dp' + _cap(editorId))
+// When fullscreen is open, redirect to the fullscreen body element instead.
+const _origCap = _cap; // _cap is defined earlier as: s => s[0].toUpperCase()+s.slice(1)
+function _getFmtTarget(editorId){
+  // If fullscreen open for this field, return the fs-body element
+  if(_fsOpen === editorId){
+    const cfg = _fsCfg[editorId];
+    if(cfg) return document.getElementById(cfg.body);
+  }
+  return document.getElementById('dp' + _cap(editorId));
+}
+
+// Monkey-patch the three fmt functions to use _getFmtTarget
+const _origFmtApplySize = fmtApplySize;
+fmtApplySize = function(e, editorId, size){
+  e.preventDefault();
+  _fmtState[editorId].size = size;
+  _updateAllToolbars(editorId);
+  const sel = window.getSelection();
+  if(!sel || sel.rangeCount === 0) return;
+  if(!sel.isCollapsed) _wrapSelection(editorId);
+  else _escapeSizedSpan(sel);
+};
+
+const _origFmtApplyToggle = fmtApplyToggle;
+fmtApplyToggle = function(e, editorId, cmd){
+  e.preventDefault(); // keeps focus+selection in editor — do NOT call edEl.focus() after this
+  const st = _fmtState[editorId];
+  if(cmd==='bold') st.bold = !st.bold;
+  else if(cmd==='italic') st.italic = !st.italic;
+  _updateAllToolbars(editorId);
+  const sel = window.getSelection();
+  if(sel && sel.rangeCount > 0 && !sel.isCollapsed) document.execCommand(cmd, false, null);
+};
+
+const _origFmtApplyHighlight = fmtApplyHighlight;
+fmtApplyHighlight = function(e, editorId){
+  e.preventDefault();
+  const sel = window.getSelection();
+  if(!sel || sel.rangeCount===0 || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  const parentMark = sel.anchorNode.parentElement?.closest('mark');
+  if(parentMark){
+    const frag = document.createDocumentFragment();
+    while(parentMark.firstChild) frag.appendChild(parentMark.firstChild);
+    parentMark.replaceWith(frag);
+  } else {
+    const mark = document.createElement('mark');
+    try{ range.surroundContents(mark); }
+    catch(err){ const frag=range.extractContents(); mark.appendChild(frag); range.insertNode(mark); }
+    const nr = document.createRange();
+    nr.selectNodeContents(mark);
+    sel.removeAllRanges(); sel.addRange(nr);
+  }
+  markDirty();
+};
+
+// Legacy alias
+function openTeleprompter(){ openFullscreen('script'); }
+function closeTeleprompter(){ closeFullscreen('script'); }
 
 // ── Language / i18n ───────────────────────────────────────────────────────────
 const i18nStrings = {
@@ -1944,7 +2241,7 @@ const i18nStrings = {
     status_editing: '✂️ Editing', status_done: '✅ Done', status_published: '🚀 Published',
     video_description: 'VIDEO DESCRIPTION / ANGLE',
     script_notes: 'SCRIPT NOTES',
-    teleprompter_mode: 'TELEPROMPTER MODE',
+    fullscreen_mode: 'FULL SCREEN',
     production_checklist: 'PRODUCTION CHECKLIST',
     tags: 'TAGS',
     yt_link: 'YOUTUBE / DRIVE LINK',
@@ -1990,7 +2287,7 @@ const i18nStrings = {
     status_editing: '✂️ Edición', status_done: '✅ Listo', status_published: '🚀 Publicado',
     video_description: 'DESCRIPCIÓN / ÁNGULO DEL VÍDEO',
     script_notes: 'NOTAS DE GUIÓN',
-    teleprompter_mode: 'MODO TELEPRÓMPTER',
+    fullscreen_mode: 'PANTALLA COMPLETA',
     production_checklist: 'CHECKLIST DE PRODUCCIÓN',
     tags: 'ETIQUETAS',
     yt_link: 'ENLACE YOUTUBE / DRIVE',
@@ -2311,15 +2608,21 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   // Apply cached local state first (fast UI)
   applyDbToGrid();
 
+  // ── Register rich-editor beforeinput listeners ONCE ─────────────────────
+  // Must be done here (not on each panel open) to avoid listener accumulation.
+  const _descEl   = document.getElementById('dpDesc');
+  const _scriptEl = document.getElementById('dpScript');
+  if(_descEl)   _descEl.addEventListener('beforeinput',   e=>richEditorBeforeInput(e,'desc'));
+  if(_scriptEl) _scriptEl.addEventListener('beforeinput', e=>richEditorBeforeInput(e,'script'));
+
   // Import / Export wiring
   document.getElementById('btnExport')?.addEventListener('click', exportData);
   document.getElementById('fileImport')?.addEventListener('change', importData);
 
-  // Enable Escape to close detail panel
+  // Enable Escape to close fullscreen overlays or detail panel
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
-      const tp = document.getElementById('tpOverlay');
-      if(tp && tp.classList.contains('open')){ closeTeleprompter(); return; }
+      if(_fsOpen){ closeFullscreen(_fsOpen); return; }
       closePanel();
     }
   });
